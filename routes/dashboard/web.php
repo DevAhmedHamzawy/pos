@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\Client\OrderController;
 use App\Http\Controllers\Admin\ClientController;
@@ -13,6 +14,8 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
 
+
+    Route::resource('brands', BrandController::class)->except('show');
 
     Route::resource('users', UserController::class)->except('show');
 

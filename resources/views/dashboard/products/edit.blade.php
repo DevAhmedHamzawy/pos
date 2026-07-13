@@ -30,12 +30,25 @@
                         {{ method_field('put') }}
 
                         <div class="form-group">
+                            <label>@lang('site.brands')</label>
+                            <select name="brand_id" class="form-control">
+                                <option value="">@lang('site.all_brands')</option>
+                                @foreach ($brands as $brand)
+                                    <option value="{{ $brand->id }}"
+                                        {{ $product->brand_id == $brand->id ? 'selected' : '' }}>{{ $brand->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group">
                             <label>@lang('site.categories')</label>
                             <select name="category_id" class="form-control">
                                 <option value="">@lang('site.all_categories')</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}"
-                                        {{ $product->category_id == $category->id ? 'selected' : '' }}>{{ $category->name }}
+                                        {{ $product->category_id == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -56,6 +69,11 @@
                                 <textarea name="{{ $locale }}[description]" class="form-control ckeditor">{{ $product->translate($locale)->description }}</textarea>
                             </div>
                         @endforeach
+
+                        <div class="form-group">
+                            <label>@lang('site.imei')</label>
+                            <input type="number" name="imei" class="form-control" value="{{ $product->imei }}">
+                        </div>
 
                         <div class="form-group">
                             <label>@lang('site.image')</label>
@@ -82,6 +100,12 @@
                         <div class="form-group">
                             <label>@lang('site.stock')</label>
                             <input type="number" name="stock" class="form-control" value="{{ $product->stock }}">
+                        </div>
+
+                        <div class="form-group">
+                            <label>@lang('site.stock_limit')</label>
+                            <input type="number" name="stock_limit" class="form-control"
+                                value="{{ $product->stock_limit }}">
                         </div>
 
                         <div class="form-group">

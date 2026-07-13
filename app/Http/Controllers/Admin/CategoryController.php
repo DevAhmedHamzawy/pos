@@ -9,6 +9,14 @@ use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
+    public function __construct()
+    {
+        //create read update delete
+        $this->middleware(['permission:categories_read'])->only('index');
+        $this->middleware(['permission:categories_create'])->only('create', 'store');
+        $this->middleware(['permission:categories_update'])->only('edit', 'update');
+        $this->middleware(['permission:categories_delete'])->only('destroy');
+    }
     public function index(Request $request)
     {
         $categories = Category::when($request->search, function ($q) use ($request) {

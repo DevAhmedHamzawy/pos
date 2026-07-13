@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -11,6 +12,16 @@ use Intervention\Image\Laravel\Facades\Image;
 
 class ProductController extends Controller
 {
+
+    public function __construct()
+    {
+        //create read update delete
+        $this->middleware(['permission:products_read'])->only('index');
+        $this->middleware(['permission:products_create'])->only('create', 'store');
+        $this->middleware(['permission:products_update'])->only('edit', 'update');
+        $this->middleware(['permission:products_delete'])->only('destroy');
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -34,7 +45,8 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('dashboard.products.create', compact('categories'));
+        $brands = Brand::all();
+        return view('dashboard.products.create', compact('categories', 'brands'));
     }
 
     /**
@@ -86,7 +98,8 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $categories = Category::all();
-        return view('dashboard.products.edit', compact('product', 'categories'));
+        $brands = Brand::all();
+        return view('dashboard.products.edit', compact('product', 'categories', 'brands'));
     }
 
     /**

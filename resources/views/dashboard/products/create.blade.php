@@ -29,6 +29,18 @@
                         {{ method_field('post') }}
 
                         <div class="form-group">
+                            <label>@lang('site.brands')</label>
+                            <select name="brand_id" class="form-control">
+                                <option value="">@lang('site.all_brands')</option>
+                                @foreach ($brands as $brand)
+                                    <option value="{{ $brand->id }}"
+                                        {{ old('brand_id') == $brand->id ? 'selected' : '' }}>{{ $brand->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group">
                             <label>@lang('site.categories')</label>
                             <select name="category_id" class="form-control">
                                 <option value="">@lang('site.all_categories')</option>
@@ -56,6 +68,12 @@
                             </div>
                         @endforeach
 
+
+                        <div class="form-group">
+                            <label>@lang('site.imei')</label>
+                            <input type="number" name="imei" class="form-control" value="{{ old('imei') }}">
+                        </div>
+
                         <div class="form-group">
                             <label>@lang('site.image')</label>
                             <input type="file" name="image" class="form-control image">
@@ -81,6 +99,11 @@
                         <div class="form-group">
                             <label>@lang('site.stock')</label>
                             <input type="number" name="stock" class="form-control" value="{{ old('stock') }}">
+                        </div>
+
+                        <div class="form-group">
+                            <label>@lang('site.stock_limit')</label>
+                            <input type="number" name="stock_limit" class="form-control" value="{{ old('stock_limit') }}">
                         </div>
 
                         <div class="form-group">

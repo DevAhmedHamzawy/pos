@@ -18,6 +18,13 @@
 
             </li>
 
+
+            @if (auth()->user()->hasPermission('brands_read'))
+                <li><a href="{{ route('admin.brands.index') }}"><i
+                            class="fa fa-th"></i><span>@lang('site.brands')</span></a>
+                </li>
+            @endif
+
             @if (auth()->user()->hasPermission('categories_read'))
                 <li><a href="{{ route('admin.categories.index') }}"><i
                             class="fa fa-th"></i><span>@lang('site.categories')</span></a></li>

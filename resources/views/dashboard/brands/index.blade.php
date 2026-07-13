@@ -6,11 +6,11 @@
 
         <section class="content-header">
 
-            <h1>@lang('site.products')</h1>
+            <h1>@lang('site.brands')</h1>
 
             <ol class="breadcrumb">
                 <li><a href="{{ route('admin.dashboard.index') }}"><i class="fa fa-dashboard"></i> @lang('site.dashboard')</a></li>
-                <li class="active">@lang('site.products')</li>
+                <li class="active">@lang('site.brands')</li>
             </ol>
         </section>
 
@@ -20,11 +20,11 @@
 
                 <div class="box-header with-border">
 
-                    <h3 class="box-title" style="margin-bottom: 15px">@lang('site.products')
-                        <small>{{ $products->total() }}</small>
+                    <h3 class="box-title" style="margin-bottom: 15px">@lang('site.brands')
+                        <small>{{ $brands->total() }}</small>
                     </h3>
 
-                    <form action="{{ route('admin.products.index') }}" method="get">
+                    <form action="{{ route('admin.brands.index') }}" method="get">
 
                         <div class="row">
 
@@ -34,21 +34,10 @@
                             </div>
 
                             <div class="col-md-4">
-                                <select name="category_id" class="form-control">
-                                    <option value="">@lang('site.all_categories')</option>
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}"
-                                            {{ request()->category_id == $category->id ? 'selected' : '' }}>
-                                            {{ $category->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="col-md-4">
                                 <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i>
                                     @lang('site.search')</button>
-                                @if (auth()->user()->hasPermission('products_create'))
-                                    <a href="{{ route('admin.products.create') }}" class="btn btn-primary"><i
+                                @if (auth()->user()->hasPermission('brands_create'))
+                                    <a href="{{ route('admin.brands.create') }}" class="btn btn-primary"><i
                                             class="fa fa-plus"></i> @lang('site.add')</a>
                                 @else
                                     <a href="#" class="btn btn-primary disabled"><i class="fa fa-plus"></i>
@@ -63,50 +52,35 @@
 
                 <div class="box-body">
 
-                    @if ($products->count() > 0)
+                    @if ($brands->count() > 0)
                         <table class="table table-hover">
 
                             <thead>
                                 <tr>
                                     <th>#</th>
                                     <th>@lang('site.name')</th>
-                                    <th>@lang('site.description')</th>
-                                    <th>@lang('site.category')</th>
-                                    <th>@lang('site.image')</th>
-                                    <th>@lang('site.purchase_price')</th>
-                                    <th>@lang('site.sale_price')</th>
-                                    <th>@lang('site.profit_percent')</th>
-                                    <th>@lang('site.stock')</th>
-                                    <th>@lang('site.stock_limit')</th>
+                                    <th>@lang('site.products_count')</th>
                                     <th>@lang('site.action')</th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                @foreach ($products as $index => $product)
+                                @foreach ($brands as $index => $brand)
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
-                                        <td>{{ $product->name }}</td>
-                                        <td>{!! $product->description !!}</td>
-                                        <td>{{ $product->category->name }}</td>
-                                        <td><img src="{{ $product->image_path }}" style="width: 100px"
-                                                class="img-thumbnail" /></td>
-                                        <td>{{ $product->purchase_price }}</td>
-                                        <td>{{ $product->sale_price }}</td>
-                                        <td>{{ $product->profit_percent }} %</td>
-                                        <td>{{ $product->stock }}</td>
-                                        <td>{{ $product->stock_limit }}</td>
+                                        <td>{{ $brand->name }}</td>
+                                        <td>{{-- $brand->products->count() --}}</td>
                                         <td>
-                                            @if (auth()->user()->hasPermission('products_update'))
-                                                <a href="{{ route('admin.products.edit', $product->id) }}"
+                                            @if (auth()->user()->hasPermission('brands_update'))
+                                                <a href="{{ route('admin.brands.edit', $brand->id) }}"
                                                     class="btn btn-info btn-sm"><i class="fa fa-edit"></i>
                                                     @lang('site.edit')</a>
                                             @else
                                                 <a href="#" class="btn btn-info btn-sm disabled"><i
                                                         class="fa fa-edit"></i> @lang('site.edit')</a>
                                             @endif
-                                            @if (auth()->user()->hasPermission('products_delete'))
-                                                <form action="{{ route('admin.products.destroy', $product->id) }}"
+                                            @if (auth()->user()->hasPermission('brands_delete'))
+                                                <form action="{{ route('admin.brands.destroy', $brand->id) }}"
                                                     method="post" style="display: inline-block">
                                                     {{ csrf_field() }}
                                                     {{ method_field('delete') }}
@@ -124,7 +98,7 @@
 
                         </table><!-- end of table -->
 
-                        {{ $products->appends(request()->query())->links() }}
+                        {{ $brands->appends(request()->query())->links() }}
                     @else
                         <h2>@lang('site.no_data_found')</h2>
                     @endif
