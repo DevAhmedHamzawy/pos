@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\QtyStatus;
+use App\QtyType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Laravel\Facades\Image;
 
@@ -55,6 +58,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $rules = [
+            'brand_id' => 'required|exists:brands,id',
             'category_id' => 'required|exists:categories,id',
         ];
 
@@ -86,7 +90,11 @@ class ProductController extends Controller
 
         }//end of if
 
-        Product::create($request_data);
+        $product = Product::create($request_data);
+
+        $request->merge(['product_id' => $product->id, 'user_id' => auth()->user()->id, 'quantity' => $request->stock, 'status' => 'stock_purchase', 'type' => 'in', 'description' => 'initial stock']);
+        DB::table('products_log_activity')->insert($request->only(['product_id', 'user_id', 'quantity', 'status', 'type', 'description']));
+
 
         session()->flash('success', __('site.added_successfully'));
         return redirect()->route('admin.products.index');
@@ -108,6 +116,7 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $rules = [
+            'brand_id' => 'required|exists:brands,id',
             'category_id' => 'required|exists:categories,id',
         ];
 
@@ -148,6 +157,13 @@ class ProductController extends Controller
 
         $product->update($request_data);
 
+        if ($product->isDirty('stock')) {
+
+        $request->merge(['product_id' => $product->id, 'user_id' => auth()->user()->id, 'quantity' => $request->stock, 'status' => 'inventory_correction', 'type' => 'in', 'description' => 'inventory correction']);
+        DB::table('products_log_activity')->insert($request->only(['product_id', 'user_id', 'quantity', 'status', 'type', 'description']));
+
+        }
+
         session()->flash('success', __('site.updated_successfully'));
         return redirect()->route('admin.products.index');
     }
@@ -166,5 +182,53 @@ class ProductController extends Controller
         $product->delete();
         session()->flash('success', __('site.deleted_successfully'));
         return redirect()->route('admin.products.index');
+    }
+
+    public function changeQty(Product $product)
+    {
+        $statuses = QtyStatus::cases();
+        $types = QtyType::cases();
+        return view('dashboard.products.change_qty', compact('product', 'statuses', 'types'));
+    }
+    public function updateQty(Product $product, Request $request)
+    {
+        if($request->type == 'in'){
+            $product->update(['stock' => $request->quantity + $product->stock]);
+            $request->merge(['product_id' => $product->id, 'quantity' => $request->quantity + $product->stock]);
+        }else{
+            if($product->stock < $request->quantity){
+                return back()->withErrors([
+                    'stock' => __('site.not_enough_stock')
+                ]);
+            }
+            $product->update(['stock' => $product->stock - $request->quantity]);
+            $request->merge(['product_id' => $product->id, 'quantity' => $product->stock - $request->quantity]);
+        }
+        DB::table('products_log_activity')->insert($request->only(['product_id', 'quantity', 'status']));
+        session()->flash('success', __('site.updated_successfully'));
+        return redirect()->route('admin.products.index');
+    }
+
+    public function activityLog(Product $product)
+    {
+        $activities = DB::table('products_log_activity as pla')
+            ->leftJoin('users', 'users.id', '=', 'pla.user_id')
+            ->leftJoin('clients', 'clients.id', '=', 'pla.client_id')
+            ->leftJoin('orders', 'orders.id', '=', 'pla.order_id')
+            ->where('pla.product_id', $product->id)
+            ->select(
+                'pla.*',
+
+                DB::raw("CONCAT(users.first_name, ' ', users.last_name) as user_name"),
+
+                'clients.name as client_name',
+
+                'orders.id as order_id',
+
+                'pla.order_number as order_number'
+            )
+            ->oldest('pla.id')
+            ->paginate(5);
+        return view('dashboard.products.activity_log', compact('product', 'activities'));
     }
 }

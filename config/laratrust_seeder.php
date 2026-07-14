@@ -19,6 +19,7 @@ return [
             'clients' => 'c,r,u,d',
             'orders' => 'c,r,u,d',
             'products' => 'c,r,u,d',
+            'installments' => 'c,r,u,d',
         ],
         'admin' => [],
     ],

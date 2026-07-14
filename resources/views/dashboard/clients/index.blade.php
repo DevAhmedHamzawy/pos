@@ -84,6 +84,14 @@
                                             @endif
                                         </th>
                                         <td>
+                                            @if (auth()->user()->hasPermission('installments_read'))
+                                                <a href="{{ route('admin.clients.orders.index', $client->id) }}"
+                                                    class="btn btn-info btn-sm"><i class="fa fa-money"></i>
+                                                    @lang('site.view_installments')</a>
+                                            @else
+                                                <a href="#" class="btn btn-info btn-sm disabled"><i
+                                                        class="fa fa-money"></i> @lang('site.view_installments')</a>
+                                            @endif
                                             @if (auth()->user()->hasPermission('clients_update'))
                                                 <a href="{{ route('admin.clients.edit', $client->id) }}"
                                                     class="btn btn-info btn-sm"><i class="fa fa-edit"></i>

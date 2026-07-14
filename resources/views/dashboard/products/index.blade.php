@@ -1,7 +1,6 @@
 @extends('layouts.dashboard.app')
 
 @section('content')
-
     <div class="content-wrapper">
 
         <section class="content-header">
@@ -97,6 +96,25 @@
                                         <td>{{ $product->stock }}</td>
                                         <td>{{ $product->stock_limit }}</td>
                                         <td>
+                                            @if (auth()->user()->hasPermission('products_read'))
+                                                <a href="{{ route('admin.products.activityLog', $product->id) }}"
+                                                    class="btn btn-info btn-sm"><i class="fa fa-line-chart"
+                                                        aria-hidden="true"></i>
+
+                                                    @lang('site.activity_product_log')</a>
+                                            @else
+                                                <a href="#" class="btn btn-info btn-sm disabled"><i
+                                                        class="fa fa-line-chart" aria-hidden="true"></i>
+                                                    @lang('site.activity_product_log')</a>
+                                            @endif
+                                            @if (auth()->user()->hasPermission('products_create') || auth()->user()->hasPermission('products_update'))
+                                                <a href="{{ route('admin.products.changeQty', $product->id) }}"
+                                                    class="btn btn-primary btn-sm"><i class="fa fa-certificate"></i>
+                                                    @lang('site.change_qty')</a>
+                                            @else
+                                                <a href="#" class="btn btn-primary btn-sm disabled"><i
+                                                        class="fa fa-quantity"></i> @lang('site.change_qty')</a>
+                                            @endif
                                             @if (auth()->user()->hasPermission('products_update'))
                                                 <a href="{{ route('admin.products.edit', $product->id) }}"
                                                     class="btn btn-info btn-sm"><i class="fa fa-edit"></i>
@@ -137,6 +155,4 @@
         </section><!-- end of content -->
 
     </div><!-- end of content wrapper -->
-
-
 @endsection

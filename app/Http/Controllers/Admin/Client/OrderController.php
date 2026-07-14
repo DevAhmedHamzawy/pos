@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Admin\Client;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Client;
+use App\Models\Installment;
 use App\Models\Order;
 use App\Models\Product;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -16,6 +19,21 @@ class OrderController extends Controller
         //create read update delete
         $this->middleware(['permission:brands_create'])->only('create', 'store');
         $this->middleware(['permission:brands_update'])->only('edit', 'update');
+    }
+
+    public function index(Request $request, Client $client)
+    {
+        $orders = $client->orders()->when($request->search, function ($q) use ($request) {
+
+            return $q->whereId($request->search);
+
+        })->when($request->installment_status, function ($q) use ($request) {
+
+            return $q->where('installment_status', $request->installment_status);
+
+        })->latest()->paginate(5);
+
+        return view('dashboard.clients.orders.index', compact('client', 'orders'));
     }
 
     public function create(Client $client)
@@ -51,7 +69,7 @@ class OrderController extends Controller
             'products' => 'required|array',
         ]);
 
-        $this->detachOrder($order);
+        $this->detachOrder($request, $order);
 
         $this->attachOrder($request, $client);
 
@@ -63,7 +81,7 @@ class OrderController extends Controller
 
     private function attachOrder($request, $client)
     {
-         $order = $client->orders()->create();
+        $order = $client->orders()->create($request->only('start', 'benefit', 'installment_number', 'total_after_benefit', 'installment_value'));
 
         $order->products()->attach($request->products);
 
@@ -75,15 +93,36 @@ class OrderController extends Controller
             $total_price += $product->sale_price * $quantity['quantity'];
 
             $product->decrement('stock', $quantity['quantity']);
+
+            $request->merge(['product_id' => $product->id, 'user_id' => auth()->user()->id, 'client_id' => $client->id, 'order_id' => $order->id, 'order_number' => $order->id, 'quantity' => $quantity['quantity'], 'status' => 'stock_transfer', 'type' => 'out', 'description' => 'عملية شراء']);
+            DB::table('products_log_activity')->insert($request->only(['product_id', 'client_id', 'order_id', 'user_id', 'quantity', 'status', 'type', 'description']));
+
         }
 
         $order->update(['total_price' => $total_price]);
+
+        if($order->installment_number > 0)
+        {
+            for($i=1;$i<=$order->installment_number;$i++){
+
+            $order->installments()->create([
+                'client_id'=>$order->client_id,
+                'installment_no'=>$i,
+                'amount'=>$order->installment_value,
+                'due_date'=>Carbon::parse(now())->addMonths($i),
+            ]);
+
+}
+        }
     }
 
-    private function detachOrder($order)
+    private function detachOrder($request, $order)
     {
         foreach ($order->products as $product) {
             $product->increment('stock', $product->pivot->quantity);
+
+            $request->merge(['product_id' => $product->id, 'user_id' => auth()->user()->id, 'client_id' => $order->client->id, 'order_id' => $order->id, 'order_number' => $order->id, 'quantity' => $product->pivot->quantity, 'status' => 'inventory_correction', 'type' => 'in', 'description' => 'تصحيح المخزن']);
+            DB::table('products_log_activity')->insert($request->only(['product_id', 'client_id', 'order_id', 'user_id', 'quantity', 'status', 'type', 'description']));
         }
 
         $order->delete();

@@ -93,6 +93,410 @@
                 <!-- /.box-body -->
             </div>
 
+            <div class="row">
+
+                <div class="col-lg-3">
+
+                    <div class="small-box bg-danger">
+
+                        <div class="inner">
+
+                            <h3>
+
+                                {{ $lateInstallmentsCount }}
+
+                            </h3>
+
+                            <p>
+
+                                الأقساط المتأخرة
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-3">
+
+                    <div class="small-box bg-warning">
+
+                        <div class="inner">
+
+                            <h3>
+
+                                {{ number_format($lateInstallmentsTotal, 2) }}
+
+                            </h3>
+
+                            <p>
+
+                                إجمالى المتأخرات
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="row">
+
+                <!-- مستحق اليوم -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3>{{ $todayInstallments }}</h3>
+                            <p>الأقساط المستحقة اليوم</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-calendar-day"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">
+                            عرض التفاصيل
+                            <i class="fas fa-arrow-circle-left"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- متأخر -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="small-box bg-danger">
+                        <div class="inner">
+                            <h3>{{ $lateInstallmentsCount }}</h3>
+                            <p>الأقساط المتأخرة</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">
+                            عرض التفاصيل
+                            <i class="fas fa-arrow-circle-left"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- المحصل -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>{{ $paidThisMonth }}</h3>
+                            <p>المحصلة هذا الشهر</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">
+                            عرض التفاصيل
+                            <i class="fas fa-arrow-circle-left"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- خلال 3 أيام -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="small-box bg-warning">
+                        <div class="inner">
+                            <h3>{{ $next3Days }}</h3>
+                            <p>تستحق خلال 3 أيام</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">
+                            عرض التفاصيل
+                            <i class="fas fa-arrow-circle-left"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <!-- الأقساط المتأخرة -->
+                <div class="col-md-6">
+
+                    <div class="card card-danger card-outline">
+
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                الأقساط المتأخرة
+                            </h3>
+                        </div>
+
+                        <div class="card-body table-responsive p-0">
+
+                            <table class="table table-hover text-nowrap">
+
+                                <thead>
+                                    <tr>
+                                        <th>العميل</th>
+                                        <th>القسط</th>
+                                        <th>الاستحقاق</th>
+                                        <th>المتبقى</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    @forelse($lateInstallments as $item)
+                                        <tr>
+
+                                            <td>{{ $item->order->client->name }}</td>
+
+                                            <td>#{{ $item->installment_no }}</td>
+
+                                            <td>
+                                                {{ $item->due_date->format('Y-m-d') }}
+                                            </td>
+
+                                            <td>
+
+                                                <span class="badge badge-danger">
+
+                                                    {{ number_format($item->amount - $item->paid_amount, 2) }}
+
+                                                </span>
+
+                                            </td>
+
+                                        </tr>
+
+                                    @empty
+
+                                        <tr>
+
+                                            <td colspan="4" class="text-center">
+
+                                                لا توجد أقساط متأخرة
+
+                                            </td>
+
+                                        </tr>
+                                    @endforelse
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- خلال 3 أيام -->
+
+                <div class="col-md-6">
+
+                    <div class="card card-warning card-outline">
+
+                        <div class="card-header">
+
+                            <h3 class="card-title">
+
+                                <i class="fas fa-clock"></i>
+
+                                الأقساط المستحقة خلال 3 أيام
+
+                            </h3>
+
+                        </div>
+
+                        <div class="card-body table-responsive p-0">
+
+                            <table class="table table-hover">
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th>العميل</th>
+
+                                        <th>القسط</th>
+
+                                        <th>التاريخ</th>
+
+                                        <th>القيمة</th>
+
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                    @forelse($nextInstallments as $item)
+                                        <tr>
+
+                                            <td>{{ $item->order->client->name }}</td>
+
+                                            <td>#{{ $item->installment_no }}</td>
+
+                                            <td>{{ $item->due_date->format('Y-m-d') }}</td>
+
+                                            <td>
+
+                                                <span class="badge badge-warning">
+
+                                                    {{ number_format($item->amount, 2) }}
+
+                                                </span>
+
+                                            </td>
+
+                                        </tr>
+
+                                    @empty
+
+                                        <tr>
+
+                                            <td colspan="4" class="text-center">
+
+                                                لا توجد أقساط قريبة
+
+                                            </td>
+
+                                        </tr>
+                                    @endforelse
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-12">
+
+                    <div class="card card-success card-outline">
+
+                        <div class="card-header">
+
+                            <h3 class="card-title">
+
+                                <i class="fas fa-money-check-alt"></i>
+
+                                آخر الأقساط المحصلة
+
+                            </h3>
+
+                        </div>
+
+                        <div class="card-body table-responsive p-0">
+
+                            <table class="table table-striped">
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th>العميل</th>
+
+                                        <th>القسط</th>
+
+                                        <th>المدفوع</th>
+
+                                        <th>تاريخ الدفع</th>
+
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                    @forelse($paidInstallments as $item)
+                                        <tr>
+
+                                            <td>{{ $item->order->client->name }}</td>
+
+                                            <td>#{{ $item->installment_no }}</td>
+
+                                            <td>{{ number_format($item->paid_amount, 2) }}</td>
+
+                                            <td>{{ optional($item->paid_at)->format('Y-m-d') }}</td>
+
+                                        </tr>
+
+                                    @empty
+
+                                        <tr>
+
+                                            <td colspan="4" class="text-center">
+
+                                                لا توجد بيانات
+
+                                            </td>
+
+                                        </tr>
+                                    @endforelse
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            @foreach ($lateInstallments as $installment)
+                <div class="alert alert-danger mb-2">
+
+                    <strong>{{ $installment->order->client->name }}</strong>
+
+                    متأخر عن سداد القسط رقم
+
+                    <strong>#{{ $installment->installment_no }}</strong>
+
+                    الخاص بالطلب
+
+                    <strong>#{{ $installment->order_id }}</strong>
+
+                    <br>
+
+                    تم سداد
+
+                    <strong>{{ number_format($installment->paid_amount, 2) }} ج.م</strong>
+
+                    من إجمالى
+
+                    <strong>{{ number_format($installment->amount, 2) }} ج.م</strong>
+
+                    ويتبقى
+
+                    <strong class="text-warning">
+                        {{ number_format($installment->amount - $installment->paid_amount, 2) }} ج.م
+                    </strong>
+
+                    <br>
+
+                    <small>
+                        كان موعد الاستحقاق
+                        {{ $installment->due_date->format('Y-m-d') }}
+                        ({{ $installment->due_date->diffForHumans() }})
+                    </small>
+
+                </div>
+            @endforeach
+
         </section><!-- end of content -->
 
     </div><!-- end of content wrapper -->

@@ -20,4 +20,10 @@ class Client extends Model
         return $this->hasMany(Order::class);
 
     }//end of orders
+
+    public function installments()
+    {
+        return $this->hasMany(Installment::class);
+
+    }//end of installments
 }

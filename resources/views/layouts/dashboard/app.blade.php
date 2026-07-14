@@ -122,29 +122,67 @@
                         <li class="dropdown messages-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-envelope-o"></i>
-                                <span class="label label-success">4</span>
+                                <span class="label label-success">
+                                    @if ($lateInstallmentsCount)
+                                        {{ $lateInstallmentsCount }}
+                                    @else
+                                        0
+                                    @endif
+                                </span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li class="header">You have 4 messages</li>
+                                <li class="header">
+                                    {{ $lateInstallmentsCount }} أقساط متأخرة
+                                </li>
                                 <li>
-                                    <!-- inner menu: contains the actual data -->
-                                    <ul class="menu">
-                                        <li><!-- start message -->
-                                            <a href="#">
-                                                <div class="pull-left">
-                                                    <img src="{{ asset('dashboard_files/img/user2-160x160.jpg') }}"
-                                                        class="img-circle" alt="User Image">
-                                                </div>
-                                                <h4>
-                                                    Support Team
-                                                    <small>
-                                                        <i class="fa fa-clock-o"></i> 5 mins
-                                                    </small>
-                                                </h4>
-                                                <p>Why not buy a new awesome theme?</p>
-                                            </a>
-                                        </li>
-                                    </ul>
+                                    @forelse($lateInstallments as $installment)
+                                        <a href="{{ route('admin.installments.index', [$installment->order->client, $installment->order]) }}"
+                                            class="dropdown-item">
+
+                                            <strong>
+
+                                                {{ $installment->order->client->name }}
+
+                                            </strong>
+
+                                            <br>
+
+                                            القسط رقم
+
+                                            {{ $installment->installment_no }}
+
+                                            <br>
+
+                                            المتبقى
+
+                                            {{ number_format($installment->amount - $installment->paid_amount, 2) }}
+
+                                            جنيه
+
+                                            <br>
+
+                                            @if ($installment->due_date < now())
+                                                <small class="text-danger">
+
+                                                    متأخر منذ
+
+                                                    {{ $installment->due_date->diffForHumans() }}
+
+                                                </small>
+                                            @endif
+
+                                        </a>
+
+                                        <div class="dropdown-divider"></div>
+
+                                    @empty
+
+                                        <span class="dropdown-item">
+
+                                            لا توجد أقساط متأخرة
+
+                                        </span>
+                                    @endforelse
                                 </li>
                                 <li class="footer">
                                     <a href="#">See All Messages</a>

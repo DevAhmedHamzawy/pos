@@ -1,0 +1,45 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Client;
+use App\Models\Installment;
+use App\Models\Order;
+use Illuminate\Http\Request;
+
+class InstallmentController extends Controller
+{
+    public function __construct()
+    {
+        //create read update delete
+        $this->middleware(['permission:installments_read'])->only('index');
+        $this->middleware(['permission:installments_update'])->only('edit', 'update');
+    }
+    public function index(Client $client, Order $order)
+    {
+        $installments = $order->installments()->paginate(20);
+        return view('dashboard.clients.installments.index', compact('client', 'installments'));
+    }
+
+    public function edit(Client $client, Order $order, Installment $installment)
+    {
+        return view('dashboard.clients.installments.edit', compact('installment', 'client', 'order'));
+    }
+
+    public function update(Request $request, Client $client, Order $order, Installment $installment)
+    {
+        $request->validate([
+            'paid_amount' => 'required|numeric',
+        ]);
+
+        $request->merge([
+            'paid_at' => now()
+        ]);
+
+        $installment->update($request->all());
+
+        session()->flash('success', __('site.added_successfully'));
+        return redirect()->route('admin.installments.index', [$client, $order]);
+    }
+}

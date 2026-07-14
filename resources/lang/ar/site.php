@@ -85,4 +85,43 @@ return [
     'imei' => 'IMEI',
     'stock_limit' => 'حد التنبيه للمخزون',
 
+    'change_qty' => 'تغير الكميه',
+    'qty' => 'الكميه',
+    'qty_reason' => 'سبب الكميه',
+    'stock purchase' => 'شراء مخزون جديد',
+    'stock transfer' => 'طلب بيع',
+    'return' => 'مرتجع مبيعات',
+    'damaged' => 'تالف / فاقد',
+    'inventory correction' => 'تصحيح جرد يدويا',
+    'other' => 'اخرى',
+    'current_qty' => 'الكميه الحاليه',
+    'new_qty' => 'الكميه الجديده',
+
+    'qty_type' => 'نوع الكميه',
+    'in' => 'اضافه',
+    'out' => 'سحب',
+
+    'user' => 'المشرف',
+    'client' => 'العميل',
+    'order' => 'الطلب',
+    'date' => 'التاريخ',
+
+    'not_enough_stock' => 'لا يوجد كميه كافيه في المخزون',
+
+    'activity_product_log' => 'سجل تحركات المنتج',
+
+    'view_installments' => 'عرض الاقساط',
+    'order_number' => 'رقم الطلب',
+    'installment_number' => 'رقم القسط',
+    'amount' => 'القيمه',
+    'due_date' => 'تاريخ الاستحقاق',
+    'paid_at' => 'تاريخ الدفع',
+    'paid_amount' => 'القيمه المدفوعه',
+    'notes' => 'ملاحظات',
+    'add_installment' => 'اضافه قسط',
+    'installment_status' => 'حاله القسط',
+    'active' => 'نشط',
+    'completed' => 'مكتمل',
+    'late' => 'متاخر',
+
 ];

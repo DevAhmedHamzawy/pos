@@ -151,6 +151,80 @@
                                 <h4>@lang('site.total') : <span
                                         class="total-price">{{ number_format($order->total_price, 2) }}</span></h4>
 
+                                <div class="card">
+                                    <div class="card-header p-0 pt-1">
+                                        <ul class="nav nav-tabs" id="custom-tabs-one-tab">
+                                            <li class="nav-item">
+                                                <a class="nav-link {{ !$order->installment_value ? 'active' : '' }}"
+                                                    data-toggle="pill" href="#tab1">
+                                                    @lang('site.cash')
+                                                </a>
+                                            </li>
+
+                                            <li class="nav-item">
+                                                <a class="nav-link {{ $order->installment_value ? 'active' : '' }}"
+                                                    data-toggle="pill" href="#tab2">
+                                                    @lang('site.installment')
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div class="tab-content">
+
+                                            <div class="tab-pane  {{ !$order->installment_value ? 'show active' : '' }}"
+                                                id="tab1">
+
+                                            </div>
+
+
+                                            <div class="tab-pane  {{ $order->installment_value ? 'show active' : '' }}"
+                                                id="tab2">
+                                                <div class="row">
+                                                    <div class="col-md-4 mb-3">
+                                                        <label for="start">@lang('site.start')</label>
+                                                        <input type="number" name="start" id="start"
+                                                            class="form-control" placeholder="@lang('site.start')"
+                                                            value="{{ $order->start }}">
+                                                    </div>
+
+                                                    <div class="col-md-4 mb-3">
+                                                        <label for="benefit">@lang('site.benefit')</label>
+                                                        <input type="number" name="benefit" id="benefit"
+                                                            class="form-control" placeholder="@lang('site.benefit')"
+                                                            value="{{ $order->benefit }}">
+                                                    </div>
+
+                                                    <div class="col-md-4 mb-3">
+                                                        <label for="installment_number">@lang('site.installment_number')</label>
+                                                        <input type="number" name="installment_number"
+                                                            id="installment_number" class="form-control"
+                                                            placeholder="@lang('site.installment_number')"
+                                                            value="{{ $order->installment_number }}">
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="total_after_benefit">@lang('site.total_after_benefits')</label>
+                                                        <input type="number" name="total_after_benefit"
+                                                            id="total_after_benefit" class="form-control"
+                                                            placeholder="@lang('site.total_after_benefits')" readonly
+                                                            value="{{ $order->total_after_benefit }}">
+                                                    </div>
+
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="installment_value">@lang('site.installment_value')</label>
+                                                        <input type="number" name="installment_value"
+                                                            id="installment_value" class="form-control"
+                                                            placeholder="@lang('site.installment_value')" readonly
+                                                            value="{{ $order->installment_value }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <button class="btn btn-primary btn-block" id="form-btn"><i class="fa fa-edit"></i>
                                     @lang('site.edit_order')</button>
 

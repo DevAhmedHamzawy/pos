@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -34,6 +35,20 @@ class OrderController extends Controller
     {
         foreach ($order->products as $product) {
             $product->increment('stock', $product->pivot->quantity);
+
+            DB::table('products_log_activity')->insert([
+                'product_id'  => $product->id,
+                'user_id'     => auth()->id(),
+                'client_id'   => $order->client_id,
+                'order_id'    => $order->id,
+                'order_number' => $order->id,
+                'quantity'    => $product->pivot->quantity,
+                'status'      => 'return',
+                'type'        => 'in',
+                'description' => 'عملية مرتجع',
+                'created_at'  => now(),
+                'updated_at'  => now(),
+            ]);
         }
 
         $order->delete();
