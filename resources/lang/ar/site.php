@@ -124,4 +124,6 @@ return [
     'completed' => 'مكتمل',
     'late' => 'متاخر',
 
+    'search_product_name_brand_imei' => 'ابحث عن المنتج بالاسم او الماركه او الIMEI',
+    'cancel' => 'الغاء',
 ];

@@ -24,6 +24,11 @@ class Product extends Model implements TranslatableContract
 
     }//end of orders
 
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
+    }
+
     public function getImagePathAttribute()
     {
         return asset('uploads/product_images/' . $this->image);

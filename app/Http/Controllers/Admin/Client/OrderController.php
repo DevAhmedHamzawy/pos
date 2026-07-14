@@ -127,4 +127,15 @@ class OrderController extends Controller
 
         $order->delete();
     }
+
+    public function productSearch(Request $request)
+    {
+        $search = $request->search;
+        $products = Product::whereTranslationLike('name', '%' . $request->search . '%')
+                ->orWhere('imei', $request->search)
+                ->orWhereHas('brand', function ($q) use ($request) {
+                    $q->where('name', $request->search);
+                })->get();
+        return response()->json(['html' => view('dashboard.clients.orders._products', compact('products'))->render()]);
+    }
 }

@@ -1,6 +1,6 @@
 $(document).ready(function () {
     //add product btn
-    $(".add-product-btn").on("click", function (e) {
+    $(document).on("click", ".add-product-btn", function (e) {
         e.preventDefault();
         var name = $(this).data("name");
         var id = $(this).data("id");
@@ -8,7 +8,7 @@ $(document).ready(function () {
 
         $(this).removeClass("btn-success").addClass("btn-default disabled");
 
-        var html = `<tr>
+        var html = `<tr data-id="${id}">
                 <td>${name}</td>
                 <td><input type="number" name="products[${id}][quantity]" data-price="${price}" class="form-control input-sm product-quantity" min="1" value="1"></td>
                 <td class="product-price">${price}</td>

@@ -29,6 +29,7 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
 
     Route::resource('clients', ClientController::class)->except('show');
     Route::resource('clients.orders', OrderController::class)->except('show');
+    Route::get('product_search', [OrderController::class, 'productSearch'])->name('product_search');
     Route::resource('clients/{client}/orders/{order}/installments', InstallmentController::class);
 
     Route::resource('orders', AdminOrderController::class)->except('show');

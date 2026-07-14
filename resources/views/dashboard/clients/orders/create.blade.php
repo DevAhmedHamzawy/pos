@@ -27,9 +27,27 @@
 
                             <h3 class="box-title" style="margin-bottom: 10px">@lang('site.categories')</h3>
 
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" id="search_value"
+                                        placeholder="@lang('site.search_product_name_brand_imei')">
+
+                                </div>
+                                <div class="col-md-7">
+                                    <button type="button" class="btn btn-primary" id="search">@lang('site.search')</button>
+                                    <button type="button" class="btn btn-danger" id="cancel">@lang('site.cancel')</button>
+
+                                </div>
+                            </div>
+
+
                         </div><!-- end of box header -->
 
                         <div class="box-body">
+                            <div id="search_result"></div>
+                        </div>
+
+                        <div class="box-body category_panel">
 
                             @foreach ($categories as $category)
                                 <div class="panel-group">
@@ -266,3 +284,52 @@
     </div><!-- end of content wrapper -->
 
 @endsection
+
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+
+            function searchProducts() {
+                $.ajax({
+                    url: '{{ route('admin.product_search') }}',
+                    type: 'GET',
+                    data: {
+                        search: $('#search_value').val()
+                    },
+                    success: function(data) {
+                        $('.category_panel').addClass('hidden');
+                        $('#search_result').html(data.html);
+
+                        $(".order-list tr").each(function() {
+                            let id = $(this).data("id");
+
+                            $("#product-" + id)
+                                .removeClass("btn-success")
+                                .addClass("btn-default disabled");
+                        });
+                    }
+                });
+            }
+
+            // الضغط على زر البحث
+            $('#search').on('click', function() {
+                searchProducts();
+            });
+
+            // الضغط على Enter داخل حقل البحث
+            $('#search_value').on('keypress', function(e) {
+                if (e.which === 13) {
+                    e.preventDefault();
+                    searchProducts();
+                }
+            });
+
+            $('#cancel').on('click', function() {
+                $('.category_panel').removeClass('hidden');
+                $('#search_result').html('');
+            });
+
+        });
+    </script>
+@endpush
