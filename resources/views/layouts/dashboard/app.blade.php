@@ -323,6 +323,11 @@
 
     {{-- custom js --}}
     <script src="{{ asset('dashboard_files/js/custom/image_preview.js') }}"></script>
+
+    <script>
+        const productQtyUrl = "{{ route('admin.product_qty') }}";
+    </script>
+
     <script src="{{ asset('dashboard_files/js/custom/order.js') }}"></script>
 
     <script>

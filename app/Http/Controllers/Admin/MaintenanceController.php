@@ -10,6 +10,7 @@ use App\Models\Maintenance;
 use App\Models\SpacePart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class MaintenanceController extends Controller
 {
@@ -107,17 +108,45 @@ class MaintenanceController extends Controller
      */
     public function update(Request $request, Maintenance $maintenance)
     {
-        $request->validate([
-        'status'      => 'required',
-        'client_id'   => 'required|exists:clients,id',
-        'brand_id'    => 'required|exists:brands,id',
-        'price'       => 'required|numeric',
+        $validator = Validator::make($request->all(), [
+            'status' => 'required',
+            'client_id' => 'required|exists:clients,id',
+            'brand_id' => 'required|exists:brands,id',
+            'price' => 'required|numeric',
+            'model' => 'required',
+            'imei' => 'required',
+            'description' => 'required',
 
-        'parts.*.id'       => 'nullable|exists:space_parts,id',
-        'parts.*.quantity' => 'nullable|numeric|min:1',
-        'parts.*.price'    => 'nullable|numeric|min:0',
+
+
+            'parts.*.id' => 'nullable|exists:space_parts,id',
+            'parts.*.quantity' => 'nullable|numeric|min:1',
+            'parts.*.price' => 'nullable|numeric|min:0',
         ]);
 
+        $validator->after(function ($validator) use ($request) {
+            foreach ($request->parts ?? [] as $index => $part) {
+
+                if (!empty($part['id'])) {
+
+                    if (empty($part['quantity'])) {
+                        $validator->errors()->add(
+                            "parts.$index.quantity",
+                            'يرجى إدخال كمية قطعة الغيار.'
+                        );
+                    }
+
+                    if ($part['price'] === '' || $part['price'] === null) {
+                        $validator->errors()->add(
+                            "parts.$index.price",
+                            'يرجى إدخال سعر قطعة الغيار.'
+                        );
+                    }
+                }
+            }
+        });
+
+        $validator->validate();
         DB::transaction(function () use ($request, $maintenance) {
 
             $maintenance->update([

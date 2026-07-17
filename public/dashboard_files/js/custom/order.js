@@ -2,23 +2,50 @@ $(document).ready(function () {
     //add product btn
     $(document).on("click", ".add-product-btn", function (e) {
         e.preventDefault();
-        var name = $(this).data("name");
-        var id = $(this).data("id");
-        var price = $.number($(this).data("price"), 2);
 
-        $(this).removeClass("btn-success").addClass("btn-default disabled");
+        var btn = $(this);
 
-        var html = `<tr data-id="${id}">
-                <td>${name}</td>
-                <td><input type="number" name="products[${id}][quantity]" data-price="${price}" class="form-control input-sm product-quantity" min="1" value="1"></td>
-                <td class="product-price">${price}</td>
-                <td><button class="btn btn-danger btn-sm remove-product-btn" data-id="${id}"><span class="fa fa-trash"></span></button></td>
-            </tr>`;
+        $.ajax({
+            url: productQtyUrl,
+            type: "GET",
+            data: {
+                id: btn.data("id"),
+            },
+            success: function (data) {
+                if (!data) {
+                    alert("لا يوجد كمية كافية في المخزون");
+                    return;
+                }
 
-        $(".order-list").append(html);
+                var name = btn.data("name");
+                var id = btn.data("id");
+                var price = $.number(btn.data("price"), 2);
 
-        //to calculate total price
-        calculateTotal();
+                btn.removeClass("btn-success").addClass("btn-default disabled");
+
+                var html = `<tr data-id="${id}">
+                    <td>${name}</td>
+                    <td>
+                        <input type="number"
+                               name="products[${id}][quantity]"
+                               data-price="${price}"
+                               class="form-control input-sm product-quantity"
+                               min="1"
+                               value="1">
+                    </td>
+                    <td class="product-price">${price}</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm remove-product-btn" data-id="${id}">
+                            <span class="fa fa-trash"></span>
+                        </button>
+                    </td>
+                </tr>`;
+
+                $(".order-list").append(html);
+
+                calculateTotal();
+            },
+        });
     });
 
     //disabled btn

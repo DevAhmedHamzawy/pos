@@ -66,7 +66,7 @@ class SpacePartController extends Controller
     public function update(Request $request, SpacePart $spacePart)
     {
         $request->validate([
-            'name' => 'required|unique:space_parts,name',
+            'name' => 'required|unique:space_parts,name,' . $spacePart->id,
             'price' => 'required|numeric',
         ]);
 

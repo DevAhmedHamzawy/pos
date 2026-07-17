@@ -93,7 +93,7 @@ class ProductController extends Controller
         $product = Product::create($request_data);
 
         $request->merge(['product_id' => $product->id, 'user_id' => auth()->user()->id, 'quantity' => $request->stock, 'status' => 'stock_purchase', 'type' => 'in', 'description' => 'initial stock']);
-        DB::table('products_log_activity')->insert($request->only(['product_id', 'user_id', 'quantity', 'status', 'type', 'description']));
+        DB::table('products_log_activity')->insert($request->only(['user_id', 'product_id', 'user_id', 'quantity', 'status', 'type', 'description']));
 
 
         session()->flash('success', __('site.added_successfully'));
@@ -160,7 +160,7 @@ class ProductController extends Controller
         if ($product->isDirty('stock')) {
 
         $request->merge(['product_id' => $product->id, 'user_id' => auth()->user()->id, 'quantity' => $request->stock, 'status' => 'inventory_correction', 'type' => 'in', 'description' => 'inventory correction']);
-        DB::table('products_log_activity')->insert($request->only(['product_id', 'user_id', 'quantity', 'status', 'type', 'description']));
+        DB::table('products_log_activity')->insert($request->only(['user_id', 'product_id', 'user_id', 'quantity', 'status', 'type', 'description']));
 
         }
 
@@ -194,7 +194,7 @@ class ProductController extends Controller
     {
         if($request->type == 'in'){
             $product->update(['stock' => $request->quantity + $product->stock]);
-            $request->merge(['product_id' => $product->id, 'quantity' => $request->quantity + $product->stock]);
+            $request->merge(['user_id' => auth()->user()->id,'product_id' => $product->id, 'quantity' => $request->quantity + $product->stock]);
         }else{
             if($product->stock < $request->quantity){
                 return back()->withErrors([
@@ -202,9 +202,10 @@ class ProductController extends Controller
                 ]);
             }
             $product->update(['stock' => $product->stock - $request->quantity]);
-            $request->merge(['product_id' => $product->id, 'quantity' => $product->stock - $request->quantity]);
+            $request->merge(['user_id' => auth()->user()->id, 'product_id' => $product->id, 'quantity' => $product->stock - $request->quantity]);
         }
-        DB::table('products_log_activity')->insert($request->only(['product_id', 'quantity', 'status']));
+
+        DB::table('products_log_activity')->insert($request->only(['user_id', 'product_id', 'quantity', 'status']));
         session()->flash('success', __('site.updated_successfully'));
         return redirect()->route('admin.products.index');
     }

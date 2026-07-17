@@ -138,4 +138,10 @@ class OrderController extends Controller
                 })->get();
         return response()->json(['html' => view('dashboard.clients.orders._products', compact('products'))->render()]);
     }
+
+    public function productQty(Request $request)
+    {
+        $product = Product::findOrFail($request->id);
+        return response()->json($product->stock <= 0 ? false : true);
+    }
 }

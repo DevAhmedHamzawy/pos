@@ -155,4 +155,6 @@ return [
 
     'search_client_name' => 'ابحث عن العميل بالاسم',
 
+    'all_clients' => 'كل العملاء',
+
 ];
