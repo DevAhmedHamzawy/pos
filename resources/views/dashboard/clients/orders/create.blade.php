@@ -147,12 +147,11 @@
 
                                 </table><!-- end of table -->
 
-                                <h4>@lang('site.total') : <span class="total-price">0</span></h4>
 
                                 <div class="card">
                                     <div class="card-header p-0 pt-1">
                                         <ul class="nav nav-tabs" id="custom-tabs-one-tab">
-                                            <li class="nav-item">
+                                            <li class="nav-item active">
                                                 <a class="nav-link active" data-toggle="pill" href="#tab1">
                                                     @lang('site.cash')
                                                 </a>
@@ -173,6 +172,11 @@
 
                                             </div>
 
+                                            <div class="col-md-12 mb-3">
+                                                <label for="discount">@lang('site.discount')</label>
+                                                <input type="number" name="discount" id="discount" class="form-control"
+                                                    value="0" min="0" placeholder="@lang('site.discount')">
+                                            </div>
 
                                             <div class="tab-pane fade" id="tab2">
                                                 <div class="row">
@@ -213,6 +217,11 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <h4>@lang('site.total') : <span class="total-price">0</span></h4>
+
+                                <input type="hidden" name="total_price" class="total-price-value">
+
 
                                 <button class="btn btn-primary btn-block disabled" id="add-order-form-btn"><i
                                         class="fa fa-plus"></i> @lang('site.add_order')</button>

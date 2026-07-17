@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\InstallmentController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\MaintenanceController;
+use App\Http\Controllers\Admin\SpacePartController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -34,6 +36,10 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
 
     Route::resource('orders', AdminOrderController::class)->except('show');
     Route::get('orders/{order}/products', [AdminOrderController::class, 'products'])->name('orders.products');
+    Route::get('/orders/{order}/receipt', [AdminOrderController::class, 'receipt'])->name('orders.receipt');
+
+    Route::resource('maintenances', MaintenanceController::class);
+    Route::resource('space_parts', SpacePartController::class);
 
 
 

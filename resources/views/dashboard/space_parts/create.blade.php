@@ -3,11 +3,11 @@
 @section('content')
     <div class="content-wrapper">
         <section class="content-header">
-            <h1>@lang('site.clients')</h1>
+            <h1>@lang('site.space_parts')</h1>
 
             <ol class="breadcrumb">
                 <li><a href="{{ route('admin.dashboard.index') }}"><i class="fa fa-dashboard"></i> @lang('site.dashboard')</a></li>
-                <li><a href="{{ route('admin.clients.index') }}"> @lang('site.clients')</a></li>
+                <li><a href="{{ route('admin.space_parts.index') }}"> @lang('site.space_parts')</a></li>
                 <li class="active">@lang('site.add')</li>
             </ol>
         </section>
@@ -23,33 +23,20 @@
 
                     @include('partials._errors')
 
-                    <form action="{{ route('admin.clients.store') }}" method="post">
+                    <form action="{{ route('admin.space_parts.store') }}" method="post">
 
                         {{ csrf_field() }}
                         {{ method_field('post') }}
+
 
                         <div class="form-group">
                             <label>@lang('site.name')</label>
                             <input type="text" name="name" class="form-control" value="{{ old('name') }}">
                         </div>
 
-
-
-                        @for ($i = 0; $i < 2; $i++)
-                            <div class="form-group">
-                                <label>@lang('site.phone')</label>
-                                <input type="text" name="phone[]" class="form-control">
-                            </div>
-                        @endfor
-
                         <div class="form-group">
-                            <label>@lang('site.national_id')</label>
-                            <input type="text" name="national_id" value="{{ old('national_id') }}" class="form-control">
-                        </div>
-
-                        <div class="form-group">
-                            <label>@lang('site.address')</label>
-                            <textarea name="address" class="form-control">{{ old('address') }}</textarea>
+                            <label>@lang('site.price')</label>
+                            <input type="number" name="price" class="form-control" value="{{ old('price') }}">
                         </div>
 
                         <div class="form-group">

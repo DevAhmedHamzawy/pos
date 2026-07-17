@@ -44,6 +44,12 @@
                         @endfor
 
                         <div class="form-group">
+                            <label>@lang('site.national_id')</label>
+                            <input type="text" name="national_id" value="{{ $client->national_id }}"
+                                class="form-control">
+                        </div>
+
+                        <div class="form-group">
                             <label>@lang('site.address')</label>
                             <textarea name="address" class="form-control">{{ $client->address }}</textarea>
                         </div>

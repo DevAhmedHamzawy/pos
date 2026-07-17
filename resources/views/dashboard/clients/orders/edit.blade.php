@@ -154,20 +154,26 @@
                                 <div class="card">
                                     <div class="card-header p-0 pt-1">
                                         <ul class="nav nav-tabs" id="custom-tabs-one-tab">
-                                            <li class="nav-item">
+                                            <li class="nav-item {{ !$order->installment_value ? 'active' : '' }}">
                                                 <a class="nav-link {{ !$order->installment_value ? 'active' : '' }}"
                                                     data-toggle="pill" href="#tab1">
                                                     @lang('site.cash')
                                                 </a>
                                             </li>
 
-                                            <li class="nav-item">
+                                            <li class="nav-item {{ $order->installment_value ? 'active' : '' }}">
                                                 <a class="nav-link {{ $order->installment_value ? 'active' : '' }}"
                                                     data-toggle="pill" href="#tab2">
                                                     @lang('site.installment')
                                                 </a>
                                             </li>
                                         </ul>
+                                    </div>
+
+                                    <div class="col-md-12 mb-3">
+                                        <label for="discount">@lang('site.discount')</label>
+                                        <input type="number" name="discount" id="discount" class="form-control"
+                                            value="{{ $order->discount }}" min="0" placeholder="@lang('site.discount')">
                                     </div>
 
                                     <div class="card-body">
@@ -224,6 +230,12 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <h4>@lang('site.total') : <span
+                                        class="total-price">{{ number_format($order->total_price, 2) }}</span></h4>
+                                <input type="hidden" name="total_price" value="{{ $order->total_price }}"
+                                    class="total-price-value">
+
 
                                 <button class="btn btn-primary btn-block" id="form-btn"><i class="fa fa-edit"></i>
                                     @lang('site.edit_order')</button>

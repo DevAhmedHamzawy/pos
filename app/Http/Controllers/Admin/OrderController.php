@@ -31,6 +31,12 @@ class OrderController extends Controller
         return view('dashboard.orders._products', compact('products', 'order'));
     }
 
+    public function receipt(Order $order)
+    {
+        $order->load('products');
+
+        return view('dashboard.orders.receipt', compact('order'));
+    }
     public function destroy(Order $order)
     {
         foreach ($order->products as $product) {

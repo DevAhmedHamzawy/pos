@@ -81,7 +81,7 @@ class OrderController extends Controller
 
     private function attachOrder($request, $client)
     {
-        $order = $client->orders()->create($request->only('start', 'benefit', 'installment_number', 'total_after_benefit', 'installment_value'));
+        $order = $client->orders()->create($request->only('start', 'benefit', 'installment_number', 'total_after_benefit', 'installment_value', 'discount', 'total_price'));
 
         $order->products()->attach($request->products);
 
@@ -90,7 +90,7 @@ class OrderController extends Controller
         foreach($request->products as $id => $quantity)
         {
             $product = Product::findOrFail($id);
-            $total_price += $product->sale_price * $quantity['quantity'];
+            // $total_price += $product->sale_price * $quantity['quantity'];
 
             $product->decrement('stock', $quantity['quantity']);
 
@@ -99,7 +99,7 @@ class OrderController extends Controller
 
         }
 
-        $order->update(['total_price' => $total_price]);
+        // $order->update(['total_price' => $total_price - $order->discount]);
 
         if($order->installment_number > 0)
         {

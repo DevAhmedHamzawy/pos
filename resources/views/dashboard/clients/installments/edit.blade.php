@@ -30,7 +30,8 @@
 
                         <div class="form-group">
                             <label>@lang('site.installment_number')</label>
-                            <input type="number" class="form-control" value="{{ $installment->installment_no }}" disabled>
+                            <input type="number" name="installment_no" class="form-control"
+                                value="{{ $installment->installment_no }}" disabled>
                         </div>
 
                         <div class="form-group">

@@ -34,7 +34,7 @@
 
                                     <div class="col-md-8">
                                         <input type="text" name="search" class="form-control"
-                                            placeholder="@lang('site.search')" value="{{ request()->search }}">
+                                            placeholder="@lang('site.search_client_name')" value="{{ request()->search }}">
                                     </div>
 
                                     <div class="col-md-4">

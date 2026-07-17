@@ -70,11 +70,6 @@ $(document).ready(function () {
             },
         });
     }); //end of order products click
-
-    //print order
-    $(document).on("click", ".print-btn", function () {
-        $("#print-area").printThis();
-    }); //end of click function
 }); //end of document ready
 
 //calculate the total
@@ -85,7 +80,19 @@ function calculateTotal() {
         price += parseFloat($(this).html().replace(/,/g, ""));
     }); //end of product price
 
-    $(".total-price").html($.number(price, 2));
+    let discountPercent = Number($("#discount").val()) || 0;
+
+    // منع إدخال أكثر من 100%
+    discountPercent = Math.min(discountPercent, 100);
+
+    let discountValue = price * (discountPercent / 100);
+
+    price -= discountValue;
+
+    let finalTotal = price;
+
+    $(".total-price").html($.number(finalTotal, 2));
+    $(".total-price-value").val(finalTotal.toFixed(2));
 
     //check if price > 0
     if (price > 0) {
@@ -106,6 +113,15 @@ function calculateInstallment() {
         price += qty * itemPrice;
     });
 
+    let discountPercent = Number($("#discount").val()) || 0;
+
+    // منع إدخال أكثر من 100%
+    discountPercent = Math.min(discountPercent, 100);
+
+    let discountValue = price * (discountPercent / 100);
+
+    price -= discountValue;
+
     // بيانات التقسيط
     let start = Number($("#start").val()) || 0;
     let benefit = Number($("#benefit").val()) || 0;
@@ -120,13 +136,16 @@ function calculateInstallment() {
 
     $("#total_after_benefit").val(totalAfterBenefit.toFixed(2));
     $("#installment_value").val(installmentValue.toFixed(2));
+    $(".total-price").html($.number(totalAfterBenefit, 2));
+    $(".total-price-value").val(totalAfterBenefit);
 }
 
 // عند تغيير الكمية أو بيانات التقسيط
 $(document).on(
     "input",
-    ".product-quantity, #start, #benefit, #installment_number",
+    ".product-quantity, #discount, #start, #benefit, #installment_number",
     function () {
+        calculateTotal();
         calculateInstallment();
     },
 );

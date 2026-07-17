@@ -39,7 +39,7 @@
 
                                     <div class="col-md-4">
                                         <select name="installment_status" class="form-control">
-                                            <option>@lang('site.all')</option>
+                                            <option value="">@lang('site.all')</option>
                                             <option value="active">@lang('site.active')</option>
                                             <option value="late">@lang('site.late')</option>
                                             <option value="completed">@lang('site.completed')</option>

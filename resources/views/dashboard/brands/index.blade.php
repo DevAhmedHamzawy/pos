@@ -69,7 +69,7 @@
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $brand->name }}</td>
-                                        <td>{{-- $brand->products->count() --}}</td>
+                                        <td>{{ $brand->products->count() }}</td>
                                         <td>
                                             @if (auth()->user()->hasPermission('brands_update'))
                                                 <a href="{{ route('admin.brands.edit', $brand->id) }}"

@@ -62,7 +62,17 @@
                             <div class="nav-tabs-custom">
 
                                 @php
-                                    $models = ['users', 'brands', 'categories', 'products', 'clients', 'orders'];
+                                    $models = [
+                                        'users',
+                                        'brands',
+                                        'categories',
+                                        'products',
+                                        'clients',
+                                        'orders',
+                                        'installments',
+                                        'maintenances',
+                                        'space_parts',
+                                    ];
                                     $maps = ['create', 'read', 'update', 'delete'];
                                 @endphp
 
@@ -79,6 +89,9 @@
                                         <div class="tab-pane {{ $index == 0 ? 'active' : '' }}" id="{{ $model }}">
 
                                             @foreach ($maps as $map)
+                                                @if ($model == 'installments' && !in_array($map, ['read', 'update']))
+                                                    @continue
+                                                @endif
                                                 {{-- create_users --}}
                                                 <label><input type="checkbox" name="permissions[]"
                                                         {{ $user->hasPermission($model . '_' . $map) ? 'checked' : '' }}

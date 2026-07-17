@@ -112,13 +112,13 @@ return [
 
     'view_installments' => 'عرض الاقساط',
     'order_number' => 'رقم الطلب',
-    'installment_number' => 'رقم القسط',
+    'installment_number' => 'عدد الأقساط',
     'amount' => 'القيمه',
     'due_date' => 'تاريخ الاستحقاق',
     'paid_at' => 'تاريخ الدفع',
     'paid_amount' => 'القيمه المدفوعه',
     'notes' => 'ملاحظات',
-    'add_installment' => 'اضافه قسط',
+    'add_installment' => 'تحصيل قسط',
     'installment_status' => 'حاله القسط',
     'active' => 'نشط',
     'completed' => 'مكتمل',
@@ -126,4 +126,33 @@ return [
 
     'search_product_name_brand_imei' => 'ابحث عن المنتج بالاسم او الماركه او الIMEI',
     'cancel' => 'الغاء',
+
+    'search_client_maintenance_imei' => 'ابحث عن العميل بالاسم او الماركه او الIMEI',
+
+    'discount' => 'الخصم',
+    'start' => 'المقدم',
+    'benefit' => 'الفائده',
+    'total_after_benefit' => 'المجموع بعد الفائده',
+    'installment_value' => 'قيمه القسط',
+    'cash' => 'كاش',
+    'installment' => 'قسط',
+
+    'sales_receipt' => 'فاتورة مبيعات',
+
+    'installment_debt' => 'مديونية الاقساط',
+
+    'installments' => 'الاقساط',
+    'maintenances' => 'الصيانة',
+    'space_parts' => 'قطع الغيار',
+
+    'all' => 'الكل',
+    'pending' => 'قيد الانتظار',
+    'in progress' => 'قيد التنفيذ',
+    'delivered' => 'تم التسليم',
+
+    'model' => 'الموديل',
+    'status' => 'الحاله',
+
+    'search_client_name' => 'ابحث عن العميل بالاسم',
+
 ];
