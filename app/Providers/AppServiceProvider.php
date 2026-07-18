@@ -5,6 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use App\Services\InstallmentNotificationService;
+use Illuminate\Pagination\Paginator;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -29,6 +31,8 @@ class AppServiceProvider extends ServiceProvider
             'lateInstallmentsCount' => $service->count(),
             'lateInstallmentsTotal' => $service->totalRemaining(),
         ]);
+
+        Paginator::useBootstrapFour();
 
     });
     }

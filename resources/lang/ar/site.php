@@ -157,4 +157,12 @@ return [
 
     'all_clients' => 'كل العملاء',
 
+    'product_activity_log' => 'سجل تحركات المنتج',
+
+    'installment_no' => 'رقم القسط',
+
+    'final_total' => 'المجموع النهائي',
+
+    'total_after_benefits' => 'المجموع بعد الفائده',
+
 ];

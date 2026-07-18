@@ -39,7 +39,7 @@ class MaintenanceController extends Controller
 
                     })->when($request->status, function ($q) use ($request) {
                          return $q->where('status', $request->status);
-            })->with('client', 'brand')->paginate(5);
+            })->with('client', 'brand')->paginate(10);
 
         $statuses = MaintenanceStatus::cases();
 
@@ -194,6 +194,8 @@ class MaintenanceController extends Controller
      */
     public function destroy(Maintenance $maintenance)
     {
-        //
+        $maintenance->delete();
+        session()->flash('success', __('site.deleted_successfully'));
+        return redirect()->route('admin.maintenances.index');
     }
 }

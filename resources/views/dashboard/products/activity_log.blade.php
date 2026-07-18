@@ -5,11 +5,14 @@
 
         <section class="content-header">
 
-            <h1>@lang('site.products')</h1>
+            <h1>@lang('site.product_activity_log')</h1>
 
             <ol class="breadcrumb">
                 <li><a href="{{ route('admin.dashboard.index') }}"><i class="fa fa-dashboard"></i> @lang('site.dashboard')</a></li>
-                <li class="active">@lang('site.products')</li>
+                <li><a href="{{ route('admin.products.index') }}"><i class="fa fa-cubes"></i>@lang('site.products')</a></li>
+                <li>{{ $product->name }}</li>
+                <li class="active">@lang('site.product_activity_log')</li>
+
             </ol>
         </section>
 
@@ -19,7 +22,7 @@
 
                 <div class="box-header with-border">
 
-                    <h3 class="box-title" style="margin-bottom: 15px">@lang('site.products')
+                    <h3 class="box-title" style="margin-bottom: 15px">@lang('site.product_activity_log')
                         <small>{{ $activities->total() }}</small>
                     </h3>
 

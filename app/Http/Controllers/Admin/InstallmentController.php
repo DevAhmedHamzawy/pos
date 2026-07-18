@@ -18,7 +18,7 @@ class InstallmentController extends Controller
     }
     public function index(Client $client, Order $order)
     {
-        $installments = $order->installments()->paginate(20);
+        $installments = $order->installments()->paginate(10);
         return view('dashboard.clients.installments.index', compact('client', 'installments'));
     }
 

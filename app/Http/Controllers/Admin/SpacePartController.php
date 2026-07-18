@@ -24,7 +24,7 @@ class SpacePartController extends Controller
     {
         $space_parts = SpacePart::when($request->search, function ($q) use ($request) {
             return $q->where('name', 'like', '%' . $request->search . '%');
-        })->latest()->paginate(5);
+        })->latest()->paginate(10);
         return view('dashboard.space_parts.index', compact('space_parts'));
     }
 

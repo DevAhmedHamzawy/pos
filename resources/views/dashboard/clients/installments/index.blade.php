@@ -6,11 +6,15 @@
 
         <section class="content-header">
 
-            <h1>@lang('site.clients')</h1>
+            <h1>@lang('site.installments')</h1>
 
             <ol class="breadcrumb">
                 <li><a href="{{ route('admin.dashboard.index') }}"><i class="fa fa-dashboard"></i> @lang('site.dashboard')</a></li>
-                <li class="active">@lang('site.clients')</li>
+                <li><a href="{{ route('admin.clients.index') }}"> @lang('site.clients')</a></li>
+                <li>{{ $client->name }}</li>
+                <li>@lang('site.orders')</li>
+                <li>{{ $installments[0]->order->id }}</li>
+                <li class="active">@lang('site.installments')</li>
             </ol>
         </section>
 
@@ -20,7 +24,7 @@
 
                 <div class="box-header with-border">
 
-                    <h3 class="box-title" style="margin-bottom: 15px">@lang('site.clients')
+                    <h3 class="box-title" style="margin-bottom: 15px">@lang('site.installments')
                         <small>{{ $installments->total() }}</small>
                     </h3>
                 </div><!-- end of box header -->

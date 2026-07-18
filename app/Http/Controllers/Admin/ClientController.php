@@ -26,7 +26,7 @@ class ClientController extends Controller
             return $q->where('name', 'like', '%' . $request->search . '%')
                 ->orWhere('phone', 'like', '%' . $request->search . '%')
                 ->orWhere('address', 'like', '%' . $request->search . '%');
-        })->latest()->paginate(5);
+        })->latest()->paginate(10);
         return view('dashboard.clients.index', compact('clients'));
     }
 

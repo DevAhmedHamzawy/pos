@@ -3,12 +3,20 @@
 @section('content')
     <div class="content-wrapper">
         <section class="content-header">
-            <h1>@lang('site.clients')</h1>
+            <h1>@lang('site.add_installment')</h1>
 
             <ol class="breadcrumb">
                 <li><a href="{{ route('admin.dashboard.index') }}"><i class="fa fa-dashboard"></i> @lang('site.dashboard')</a></li>
                 <li><a href="{{ route('admin.clients.index') }}"> @lang('site.clients')</a></li>
-                <li class="active">@lang('site.add')</li>
+                <li>{{ $client->name }}</li>
+                <li>@lang('site.orders')</li>
+                <li>{{ $order->id }}</li>
+                <li><a
+                        href="{{ route('admin.installments.index', ['client' => $order->client->id, 'order' => $order->id]) }}">@lang('site.installments')</a>
+                </li>
+                <li>{{ $installment->installment_no }}</li>
+                <li class="active">@lang('site.add_installment')</li>
+
             </ol>
         </section>
 
@@ -17,7 +25,7 @@
             <div class="box box-primary">
 
                 <div class="box-header">
-                    <h3 class="box-title">@lang('site.add')</h3>
+                    <h3 class="box-title">@lang('site.add_installment')</h3>
                 </div><!-- end of box header -->
                 <div class="box-body">
 
@@ -29,7 +37,7 @@
                         {{ method_field('put') }}
 
                         <div class="form-group">
-                            <label>@lang('site.installment_number')</label>
+                            <label>@lang('site.installment_no')</label>
                             <input type="number" name="installment_no" class="form-control"
                                 value="{{ $installment->installment_no }}" disabled>
                         </div>

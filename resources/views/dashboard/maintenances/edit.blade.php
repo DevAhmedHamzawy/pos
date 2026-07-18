@@ -8,7 +8,7 @@
             <ol class="breadcrumb">
                 <li><a href="{{ route('admin.dashboard.index') }}"><i class="fa fa-dashboard"></i> @lang('site.dashboard')</a></li>
                 <li><a href="{{ route('admin.maintenances.index') }}"> @lang('site.maintenances')</a></li>
-                <li class="active">@lang('site.add')</li>
+                <li class="active">@lang('site.edit')</li>
             </ol>
         </section>
 
@@ -17,7 +17,7 @@
             <div class="box box-primary">
 
                 <div class="box-header">
-                    <h3 class="box-title">@lang('site.add')</h3>
+                    <h3 class="box-title">@lang('site.edit')</h3>
                 </div><!-- end of box header -->
                 <div class="box-body">
 
@@ -167,7 +167,7 @@
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i>
-                                @lang('site.add')</button>
+                                @lang('site.edit')</button>
                         </div>
 
                     </form><!-- end of form -->
@@ -183,6 +183,10 @@
 
 @push('scripts')
     <script>
+        $(document).ready(function() {
+            calculateTotal();
+        })
+
         let index = {{ $maintenance->spaceParts->count() }};
 
         $('#addPart').on('click', function() {

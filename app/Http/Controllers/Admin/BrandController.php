@@ -23,7 +23,7 @@ class BrandController extends Controller
 
             return $q->whereLike('name', '%' . $request->search . '%');
 
-        })->latest()->paginate(5);
+        })->latest()->paginate(10);
 
         return view('dashboard.brands.index', compact('brands'));
 

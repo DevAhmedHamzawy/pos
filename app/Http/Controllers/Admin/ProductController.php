@@ -36,7 +36,7 @@ class ProductController extends Controller
         })->when($request->category_id, function ($q) use ($request) {
 
             return $q->where('category_id', $request->category_id);
-        })->latest()->paginate(5);
+        })->latest()->paginate(10);
         $categories = Category::all();
 
         return view('dashboard.products.index', compact('products', 'categories'));
@@ -229,7 +229,7 @@ class ProductController extends Controller
                 'pla.order_number as order_number'
             )
             ->oldest('pla.id')
-            ->paginate(5);
+            ->paginate(10);
         return view('dashboard.products.activity_log', compact('product', 'activities'));
     }
 }

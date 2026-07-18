@@ -3,12 +3,13 @@
 @section('content')
     <div class="content-wrapper">
         <section class="content-header">
-            <h1>@lang('site.products')</h1>
+            <h1>{{ $product->name }}</h1>
 
             <ol class="breadcrumb">
                 <li><a href="{{ route('admin.dashboard.index') }}"><i class="fa fa-dashboard"></i> @lang('site.dashboard')</a></li>
-                <li><a href="{{ route('admin.products.index') }}"> @lang('site.products')</a></li>
-                <li class="active">@lang('site.add')</li>
+                <li><a href="{{ route('admin.products.index') }}"><i class="fa fa-cubes"></i>@lang('site.products')</a></li>
+                <li>{{ $product->name }}</li>
+                <li class="active">@lang('site.change_qty')</li>
             </ol>
         </section>
 
@@ -17,7 +18,7 @@
             <div class="box box-primary">
 
                 <div class="box-header">
-                    <h3 class="box-title">@lang('site.add')</h3>
+                    <h3 class="box-title">@lang('site.change_qty')</h3>
                 </div><!-- end of box header -->
                 <div class="box-body">
 

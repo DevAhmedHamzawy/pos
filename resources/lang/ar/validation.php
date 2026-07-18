@@ -192,7 +192,7 @@ return [
         'paid_amount' => 'القيمه المدفوعه',
 
         'client_id' => 'العميل',
-        'brand_id' => 'الفرع',
+        'brand_id' => 'الماركة',
         'model' => 'الموديل',
         'imei' => 'IMEI',
         'price' => 'السعر',

@@ -12,6 +12,8 @@
 
             <ol class="breadcrumb">
                 <li><a href="{{ route('admin.dashboard.index') }}"><i class="fa fa-dashboard"></i> @lang('site.dashboard')</a></li>
+                <li><a href="{{ route('admin.clients.index') }}"> @lang('site.clients')</a></li>
+                <li>{{ $client->name }}</li>
                 <li class="active">@lang('site.orders')</li>
             </ol>
         </section>
