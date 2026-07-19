@@ -58,6 +58,9 @@ class OrderController extends Controller
         }
 
         $order->delete();
+
+        activity()->log('قام '.auth()->user()->full_name.' بحذف طلب'.$order->id.' للعميل '.$order->client->name);
+
         session()->flash('success', __('site.deleted_successfully'));
         return redirect()->route('admin.orders.index');
     }

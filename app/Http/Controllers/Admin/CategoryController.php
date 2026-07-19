@@ -48,6 +48,9 @@ class CategoryController extends Controller
         $request->validate($rules);
 
         Category::create($request->all());
+
+        activity()->log('قام '.auth()->user()->full_name.' بإضافة التصنيف'.$request['ar']['name']);
+
         session()->flash('success', __('site.added_successfully'));
         return redirect()->route('admin.categories.index');
 
@@ -72,6 +75,9 @@ class CategoryController extends Controller
         $request->validate($rules);
 
         $category->update($request->all());
+
+        activity()->log('قام '.auth()->user()->full_name.' بتعديل التصنيف'.$request['ar']['name']);
+
         session()->flash('success', __('site.updated_successfully'));
         return redirect()->route('admin.categories.index');
 
@@ -79,7 +85,12 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
+        $name = $category->translate('ar')->name;
+
         $category->delete();
+
+        activity()->log('قام '.auth()->user()->full_name.' بحذف التصنيف'.$name);
+
         session()->flash('success', __('site.deleted_successfully'));
         return redirect()->route('admin.categories.index');
 

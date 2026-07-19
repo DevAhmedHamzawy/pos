@@ -41,7 +41,10 @@ class BrandController extends Controller
             'name' => 'required|unique:brands,name',
         ]);
 
-        Brand::create($request->all());
+        $brand = Brand::create($request->all());
+
+        activity()->log('قام '.auth()->user()->full_name.' بإضافة ماركة'.$brand->name);
+
         session()->flash('success', __('site.added_successfully'));
         return redirect()->route('admin.brands.index');
 
@@ -60,6 +63,9 @@ class BrandController extends Controller
         ]);
 
         $brand->update($request->all());
+
+        activity()->log('قام '.auth()->user()->full_name.' بتعديل ماركة'.$brand->name);
+
         session()->flash('success', __('site.updated_successfully'));
         return redirect()->route('admin.brands.index');
 
@@ -68,6 +74,9 @@ class BrandController extends Controller
     public function destroy(Brand $brand)
     {
         $brand->delete();
+
+        activity()->log('قام '.auth()->user()->full_name.' بحذف ماركة'.$brand->name);
+
         session()->flash('success', __('site.deleted_successfully'));
         return redirect()->route('admin.brands.index');
 

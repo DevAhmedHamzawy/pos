@@ -45,6 +45,8 @@ class InstallmentController extends Controller
 
         $installment->update($request->all());
 
+        activity()->log('قام '.auth()->user()->full_name.' بتحصيل قسط'.$installment->installment_no.' للطلب '.$order->id.' للعميل '.$client->name);
+
         session()->flash('success', __('site.added_successfully'));
         return redirect()->route('admin.installments.index', [$client, $order]);
     }

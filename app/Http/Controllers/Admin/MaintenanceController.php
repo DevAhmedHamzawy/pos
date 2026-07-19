@@ -71,7 +71,10 @@ class MaintenanceController extends Controller
             'description' => 'required',
         ]);
 
-        Maintenance::create($request->all());
+        $maintenance = Maintenance::create($request->all());
+
+        activity()->log('قام '.auth()->user()->full_name.' بإضافة صيانه للموديل'.$maintenance->model.' للعميل '.$maintenance->client->name);
+
 
         session()->flash('success', __('site.added_successfully'));
         return redirect()->route('admin.maintenances.index');
@@ -181,6 +184,8 @@ class MaintenanceController extends Controller
 
         });
 
+        activity()->log('قام '.auth()->user()->full_name.' بتعديل صيانه للموديل'.$maintenance->model.' للعميل '.$maintenance->client->name);
+
         session()->flash('success', __('site.updated_successfully'));
 
         return redirect()->route('admin.maintenances.index');
@@ -195,6 +200,9 @@ class MaintenanceController extends Controller
     public function destroy(Maintenance $maintenance)
     {
         $maintenance->delete();
+
+        activity()->log('قام '.auth()->user()->full_name.' بحذف صيانه للموديل'.$maintenance->model.' للعميل '.$maintenance->client->name);
+
         session()->flash('success', __('site.deleted_successfully'));
         return redirect()->route('admin.maintenances.index');
     }

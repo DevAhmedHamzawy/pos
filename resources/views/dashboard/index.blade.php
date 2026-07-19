@@ -574,6 +574,63 @@
 
             </div>
 
+
+            <div class="box box-primary">
+
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <i class="fa fa-history"></i>
+                        {{ __('site.activity_logs') }}
+                    </h3>
+                </div>
+
+                <div class="box-body p-0">
+
+                    @if ($activityLogs->count())
+                        <ul class="products-list product-list-in-box">
+
+                            @foreach ($activityLogs as $log)
+                                <li class="item">
+
+
+
+                                    <div class="product-info">
+
+                                        <span class="product-title">
+
+                                            {{ ucfirst($log->description) }}
+
+                                            <small class="pull-right text-muted">
+                                                <i class="fa fa-clock-o"></i>
+                                                {{ $log->created_at->diffForHumans() }}
+                                            </small>
+
+                                        </span>
+
+
+
+                                    </div>
+
+                                </li>
+                            @endforeach
+
+                        </ul>
+                    @else
+                        <div class="text-center" style="padding:50px">
+
+                            <i class="fa fa-history fa-4x text-muted"></i>
+
+                            <h4 class="text-muted">
+                                No Activity Logs Found
+                            </h4>
+
+                        </div>
+                    @endif
+
+                </div>
+
+            </div>
+
             <div class="box box-solid">
 
                 <div class="box-header">
@@ -587,123 +644,244 @@
 
             <div class="row">
 
-                <div class="col-lg-3">
-
-                    <div class="small-box bg-danger">
-
+                <!-- الأقساط المتأخرة -->
+                <div class="col-lg-3 col-xs-6">
+                    <div class="small-box bg-red">
                         <div class="inner">
-
-                            <h3>
-
-                                {{ $lateInstallmentsCount }}
-
-                            </h3>
-
-                            <p>
-
-                                الأقساط المتأخرة
-
-                            </p>
-
+                            <h3>{{ $lateInstallmentsCount }}</h3>
+                            <p>الأقساط المتأخرة</p>
                         </div>
 
-                    </div>
+                        <div class="icon">
+                            <i class="fa fa-exclamation-triangle"></i>
+                        </div>
 
+
+                    </div>
                 </div>
 
-                <div class="col-lg-3">
-
-                    <div class="small-box bg-warning">
-
+                <!-- إجمالي المتأخرات -->
+                <div class="col-lg-3 col-xs-6">
+                    <div class="small-box bg-yellow">
                         <div class="inner">
-
-                            <h3>
-
-                                {{ number_format($lateInstallmentsTotal, 2) }}
-
-                            </h3>
-
-                            <p>
-
-                                إجمالى المتأخرات
-
-                            </p>
-
+                            <h3>{{ number_format($lateInstallmentsTotal, 2) }}</h3>
+                            <p>إجمالي المتأخرات</p>
                         </div>
 
+                        <div class="icon">
+                            <i class="fa fa-money"></i>
+                        </div>
+
+
                     </div>
+                </div>
+
+            </div>
+            <div class="row">
+
+                <div class="col-md-3">
+                    <div class="info-box bg-aqua">
+                        <span class="info-box-icon">
+                            <i class="fa fa-list"></i>
+                        </span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">
+                                إجمالى الأقساط
+                            </span>
+
+                            <span class="info-box-number">
+                                {{ $totalInstallmentsCount }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="info-box bg-green">
+                        <span class="info-box-icon">
+                            <i class="fa fa-check"></i>
+                        </span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">
+                                المسددة
+                            </span>
+
+                            <span class="info-box-number">
+                                {{ $paidInstallmentsCount }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="info-box bg-yellow">
+                        <span class="info-box-icon">
+                            <i class="fa fa-clock-o"></i>
+                        </span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">
+                                المتبقية
+                            </span>
+
+                            <span class="info-box-number">
+                                {{ $remainingInstallmentsCount }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <div class="box box-warning">
+
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        الأقساط المستحقة اليوم
+                    </h3>
+                </div>
+
+                <div class="box-body table-responsive">
+
+                    <table class="table table-bordered table-hover">
+
+                        <thead>
+
+                            <tr>
+                                <th>#</th>
+                                <th>رقم الطلب</th>
+                                <th>العميل</th>
+                                <th>قيمة القسط</th>
+                                <th>تاريخ الاستحقاق</th>
+                                <th>الحالة</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @forelse($todayInstallments as $installment)
+                                <tr>
+
+                                    <td>{{ $loop->iteration }}</td>
+
+                                    <td>#{{ $installment->order->id }}</td>
+
+                                    <td>{{ $installment->order->client->name }}</td>
+
+                                    <td>{{ number_format($installment->amount, 2) }} ج.م</td>
+
+                                    <td>{{ $installment->due_date }}</td>
+
+                                    <td>
+
+                                        @if ($installment->status == 'paid')
+                                            <span class="label label-success">
+                                                مسدد
+                                            </span>
+                                        @elseif($installment->status == 'pending')
+                                            <span class="label label-warning">
+                                                مستحق
+                                            </span>
+                                        @elseif($installment->status == 'late')
+                                            <span class="label label-danger">
+                                                متأخر
+                                            </span>
+                                        @endif
+
+                                    </td>
+
+                                </tr>
+
+                            @empty
+
+                                <tr>
+
+                                    <td colspan="6" class="text-center">
+                                        لا توجد أقساط مستحقة اليوم
+                                    </td>
+
+                                </tr>
+                            @endforelse
+
+                        </tbody>
+
+                    </table>
 
                 </div>
 
             </div>
 
-
             <div class="row">
 
                 <!-- مستحق اليوم -->
-                <div class="col-lg-3 col-md-6">
-                    <div class="small-box bg-info">
+                <div class="col-lg-3 col-xs-6">
+                    <div class="small-box bg-aqua">
                         <div class="inner">
                             <h3>{{ $todayInstallments }}</h3>
                             <p>الأقساط المستحقة اليوم</p>
                         </div>
                         <div class="icon">
-                            <i class="fas fa-calendar-day"></i>
+                            <i class="fa fa-calendar"></i>
                         </div>
                         <a href="#" class="small-box-footer">
                             عرض التفاصيل
-                            <i class="fas fa-arrow-circle-left"></i>
+                            <i class="fa fa-arrow-circle-left"></i>
                         </a>
                     </div>
                 </div>
 
                 <!-- متأخر -->
-                <div class="col-lg-3 col-md-6">
-                    <div class="small-box bg-danger">
+                <div class="col-lg-3 col-xs-6">
+                    <div class="small-box bg-red">
                         <div class="inner">
                             <h3>{{ $lateInstallmentsCount }}</h3>
                             <p>الأقساط المتأخرة</p>
                         </div>
                         <div class="icon">
-                            <i class="fas fa-exclamation-circle"></i>
+                            <i class="fa fa-exclamation-triangle"></i>
                         </div>
                         <a href="#" class="small-box-footer">
                             عرض التفاصيل
-                            <i class="fas fa-arrow-circle-left"></i>
+                            <i class="fa fa-arrow-circle-left"></i>
                         </a>
                     </div>
                 </div>
 
                 <!-- المحصل -->
-                <div class="col-lg-3 col-md-6">
-                    <div class="small-box bg-success">
+                <div class="col-lg-3 col-xs-6">
+                    <div class="small-box bg-green">
                         <div class="inner">
-                            <h3>{{ $paidThisMonth }}</h3>
+                            <h3>{{ number_format($paidThisMonth, 2) }}</h3>
                             <p>المحصلة هذا الشهر</p>
                         </div>
                         <div class="icon">
-                            <i class="fas fa-check-circle"></i>
+                            <i class="fa fa-check-circle"></i>
                         </div>
                         <a href="#" class="small-box-footer">
                             عرض التفاصيل
-                            <i class="fas fa-arrow-circle-left"></i>
+                            <i class="fa fa-arrow-circle-left"></i>
                         </a>
                     </div>
                 </div>
 
                 <!-- خلال 3 أيام -->
-                <div class="col-lg-3 col-md-6">
-                    <div class="small-box bg-warning">
+                <div class="col-lg-3 col-xs-6">
+                    <div class="small-box bg-yellow">
                         <div class="inner">
                             <h3>{{ $next3Days }}</h3>
                             <p>تستحق خلال 3 أيام</p>
                         </div>
                         <div class="icon">
-                            <i class="fas fa-clock"></i>
+                            <i class="fa fa-clock-o"></i>
                         </div>
                         <a href="#" class="small-box-footer">
                             عرض التفاصيل
-                            <i class="fas fa-arrow-circle-left"></i>
+                            <i class="fa fa-arrow-circle-left"></i>
                         </a>
                     </div>
                 </div>
@@ -715,18 +893,18 @@
                 <!-- الأقساط المتأخرة -->
                 <div class="col-md-6">
 
-                    <div class="card card-danger card-outline">
+                    <div class="box box-danger">
 
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                <i class="fas fa-exclamation-triangle"></i>
+                        <div class="box-header with-border">
+                            <h3 class="box-title">
+                                <i class="fa fa-exclamation-triangle"></i>
                                 الأقساط المتأخرة
                             </h3>
                         </div>
 
-                        <div class="card-body table-responsive p-0">
+                        <div class="box-body table-responsive no-padding">
 
-                            <table class="table table-hover text-nowrap">
+                            <table class="table table-hover">
 
                                 <thead>
                                     <tr>
@@ -741,37 +919,20 @@
 
                                     @forelse($lateInstallments as $item)
                                         <tr>
-
                                             <td>{{ $item->order->client->name }}</td>
-
                                             <td>#{{ $item->installment_no }}</td>
-
+                                            <td>{{ $item->due_date->format('Y-m-d') }}</td>
                                             <td>
-                                                {{ $item->due_date->format('Y-m-d') }}
-                                            </td>
-
-                                            <td>
-
-                                                <span class="badge badge-danger">
-
+                                                <span class="label label-danger">
                                                     {{ number_format($item->amount - $item->paid_amount, 2) }}
-
                                                 </span>
-
                                             </td>
-
                                         </tr>
-
                                     @empty
-
                                         <tr>
-
                                             <td colspan="4" class="text-center">
-
                                                 لا توجد أقساط متأخرة
-
                                             </td>
-
                                         </tr>
                                     @endforelse
 
@@ -786,76 +947,48 @@
                 </div>
 
                 <!-- خلال 3 أيام -->
-
                 <div class="col-md-6">
 
-                    <div class="card card-warning card-outline">
+                    <div class="box box-warning">
 
-                        <div class="card-header">
-
-                            <h3 class="card-title">
-
-                                <i class="fas fa-clock"></i>
-
+                        <div class="box-header with-border">
+                            <h3 class="box-title">
+                                <i class="fa fa-clock-o"></i>
                                 الأقساط المستحقة خلال 3 أيام
-
                             </h3>
-
                         </div>
 
-                        <div class="card-body table-responsive p-0">
+                        <div class="box-body table-responsive no-padding">
 
                             <table class="table table-hover">
 
                                 <thead>
-
                                     <tr>
-
                                         <th>العميل</th>
-
                                         <th>القسط</th>
-
                                         <th>التاريخ</th>
-
                                         <th>القيمة</th>
-
                                     </tr>
-
                                 </thead>
 
                                 <tbody>
 
                                     @forelse($nextInstallments as $item)
                                         <tr>
-
                                             <td>{{ $item->order->client->name }}</td>
-
                                             <td>#{{ $item->installment_no }}</td>
-
                                             <td>{{ $item->due_date->format('Y-m-d') }}</td>
-
                                             <td>
-
-                                                <span class="badge badge-warning">
-
+                                                <span class="label label-warning">
                                                     {{ number_format($item->amount, 2) }}
-
                                                 </span>
-
                                             </td>
-
                                         </tr>
-
                                     @empty
-
                                         <tr>
-
                                             <td colspan="4" class="text-center">
-
                                                 لا توجد أقساط قريبة
-
                                             </td>
-
                                         </tr>
                                     @endforelse
 
@@ -875,65 +1008,46 @@
 
                 <div class="col-md-12">
 
-                    <div class="card card-success card-outline">
+                    <div class="box box-success">
 
-                        <div class="card-header">
-
-                            <h3 class="card-title">
-
-                                <i class="fas fa-money-check-alt"></i>
-
+                        <div class="box-header with-border">
+                            <h3 class="box-title">
+                                <i class="fa fa-money"></i>
                                 آخر الأقساط المحصلة
-
                             </h3>
-
                         </div>
 
-                        <div class="card-body table-responsive p-0">
+                        <div class="box-body table-responsive no-padding">
 
                             <table class="table table-striped">
 
                                 <thead>
-
                                     <tr>
-
                                         <th>العميل</th>
-
                                         <th>القسط</th>
-
                                         <th>المدفوع</th>
-
                                         <th>تاريخ الدفع</th>
-
                                     </tr>
-
                                 </thead>
 
                                 <tbody>
 
                                     @forelse($paidInstallments as $item)
                                         <tr>
-
                                             <td>{{ $item->order->client->name }}</td>
-
                                             <td>#{{ $item->installment_no }}</td>
-
-                                            <td>{{ number_format($item->paid_amount, 2) }}</td>
-
-                                            <td>{{ optional($item->paid_at)->format('Y-m-d') }}</td>
-
-                                        </tr>
-
-                                    @empty
-
-                                        <tr>
-
-                                            <td colspan="4" class="text-center">
-
-                                                لا توجد بيانات
-
+                                            <td>
+                                                <span class="label label-success">
+                                                    {{ number_format($item->paid_amount, 2) }}
+                                                </span>
                                             </td>
-
+                                            <td>{{ optional($item->paid_at)->format('Y-m-d') }}</td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="4" class="text-center">
+                                                لا توجد بيانات
+                                            </td>
                                         </tr>
                                     @endforelse
 

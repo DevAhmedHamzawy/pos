@@ -53,7 +53,10 @@ class ClientController extends Controller
         $request_data = $request->all();
         $request_data['phone'] = array_filter($request->phone);
 
-        Client::create($request_data);
+        $client = Client::create($request_data);
+
+        activity()->log('قام '.auth()->user()->full_name.' بإضافة عميل'.$client->name);
+
 
         session()->flash('success', __('site.added_successfully'));
 
@@ -85,6 +88,8 @@ class ClientController extends Controller
 
         $client->update($request_data);
 
+        activity()->log('قام '.auth()->user()->full_name.' بتعديل عميل'.$client->name);
+
         session()->flash('success', __('site.updated_successfully'));
 
         return redirect()->route('admin.clients.index');
@@ -96,6 +101,9 @@ class ClientController extends Controller
     public function destroy(Client $client)
     {
         $client->delete();
+
+        activity()->log('قام '.auth()->user()->full_name.' بحذف عميل'.$client->name);
+
         session()->flash('success', __('site.deleted_successfully'));
         return redirect()->route('admin.clients.index');
     }

@@ -22,6 +22,7 @@ return [
             'installments' => 'r,u',
             'maintenances' => 'c,r,u,d',
             'space_parts' => 'c,r,u,d',
+            'activity_logs' => 'r',
         ],
         'admin' => [],
     ],

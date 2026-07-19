@@ -49,7 +49,9 @@ class OrderController extends Controller
             'products' => 'required|array',
         ]);
 
-        $this->attachOrder($request, $client);
+        $order = $this->attachOrder($request, $client);
+
+        activity()->log('قام '.auth()->user()->full_name.' بإضافة طلب'.$order->id.' للعميل '.$client->name);
 
         session()->flash('success', __('site.added_successfully'));
         return redirect()->route('admin.orders.index');
@@ -71,7 +73,9 @@ class OrderController extends Controller
 
         $this->detachOrder($request, $order);
 
-        $this->attachOrder($request, $client);
+        $order = $this->attachOrder($request, $client);
+
+        activity()->log('قام '.auth()->user()->full_name.' بتعديل طلب'.$order->id.' للعميل '.$client->name);
 
         session()->flash('success', __('site.updated_successfully'));
         return redirect()->route('admin.orders.index');
@@ -105,15 +109,17 @@ class OrderController extends Controller
         {
             for($i=1;$i<=$order->installment_number;$i++){
 
-            $order->installments()->create([
-                'client_id'=>$order->client_id,
-                'installment_no'=>$i,
-                'amount'=>$order->installment_value,
-                'due_date'=>Carbon::parse(now())->addMonths($i),
-            ]);
+                $order->installments()->create([
+                    'client_id'=>$order->client_id,
+                    'installment_no'=>$i,
+                    'amount'=>$order->installment_value,
+                    'due_date'=>Carbon::parse(now())->addMonths($i),
+                ]);
 
-}
+            }
         }
+
+        return $order;
     }
 
     private function detachOrder($request, $order)

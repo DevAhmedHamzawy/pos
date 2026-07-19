@@ -13,6 +13,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Spatie\Activitylog\Models\Activity;
 
 class DashboardController extends Controller
 {
@@ -165,10 +166,28 @@ $topProducts = DB::table('product_order')
 
     $maintenances_total = $pending + $inProgress + $completed + $delivered;
 
-    $pendingWidth = ($pending / $maintenances_total) * 100;
+    if($maintenances_total > 0){
+         $pendingWidth = ($pending / $maintenances_total) * 100;
 $inProgressWidth = ($inProgress / $maintenances_total) * 100;
 $completedWidth = ($completed / $maintenances_total) * 100;
 $deliveredWidth = ($delivered / $maintenances_total) * 100;
+    }else{
+        $pendingWidth = 0;
+$inProgressWidth = 0;
+$completedWidth = 0;
+$deliveredWidth = 0;
+    }
+
+
+    // إجمالى الأقساط
+$totalInstallmentsCount = Installment::count();
+
+// الأقساط المسددة
+$paidInstallmentsCount = Installment::where('status', 'paid')->count();
+
+// الأقساط المتبقية
+$remainingInstallmentsCount = Installment::where('status', 'unpaid')->count();
+
 
 $newClientsMonth = Client::whereMonth('created_at', now()->month)
     ->whereYear('created_at', now()->year)
@@ -255,12 +274,22 @@ $yearParts = DB::table('maintenance_space_part')->whereYear('created_at', now()-
 
 $yearProfit = $yearSales + $yearMaintenance + $yearParts;
 
+$activityLogs = Activity::orderBy('created_at', 'desc')->limit(10)->get();
+
+
+$todayInstallments = Installment::with(['order.client'])
+    ->whereDate('due_date', today())
+    ->whereIn('status', ['pending', 'late'])
+    ->orderBy('due_date')
+    ->get();
+
         return view('dashboard.index', compact(
             'todaySales', 'todayOrders', 'almostProducts', 'maintenances', 'dueInstallments',  'pending',
         'inProgress',
         'completed',
         'stockValue', 'stockValueDecreasing', 'stockExpired',
+        'totalInstallmentsCount', 'paidInstallmentsCount', 'remainingInstallmentsCount', 'todayInstallments' ,
         'deliveredWidth', 'pendingWidth', 'topClient', 'inProgressWidth', 'newClientsMonth', 'completedWidth',
-        'delivered', 'categories_count', 'topProducts', 'latestOrders' , 'yearProfit' , 'monthProfit' , 'weekProfit' , 'todayProfit' , 'products_count', 'clients_count', 'users_count', 'salesLabels' , 'salesData', 'revenues', 'almostProductsTable' , 'sales_data', 'todayInstallments', 'paidThisMonth', 'next3Days', 'nextInstallments', 'paidInstallments'));
+        'delivered', 'categories_count', 'topProducts', 'activityLogs', 'latestOrders' , 'yearProfit' , 'monthProfit' , 'weekProfit' , 'todayProfit' , 'products_count', 'clients_count', 'users_count', 'salesLabels' , 'salesData', 'revenues', 'almostProductsTable' , 'sales_data', 'todayInstallments', 'paidThisMonth', 'next3Days', 'nextInstallments', 'paidInstallments'));
     }
 }

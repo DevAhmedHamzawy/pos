@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ActivityLogController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\Client\OrderController;
@@ -42,5 +43,4 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
     Route::resource('maintenances', MaintenanceController::class);
     Route::resource('space_parts', SpacePartController::class);
 
-
-
+    Route::get('activity_logs', [ActivityLogController::class, 'index'])->name('activity_logs');

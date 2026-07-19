@@ -93,6 +93,15 @@
                 </li>
             @endif
 
+            @if (auth()->user()->hasPermission('activity_logs_read'))
+                <li>
+                    <a href="{{ route('admin.activity_logs') }}">
+                        <i class="fa fa-user"></i>
+                        <span>@lang('site.activity_logs')</span>
+                    </a>
+                </li>
+            @endif
+
         </ul>
 
     </section>

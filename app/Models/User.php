@@ -19,6 +19,8 @@ class User extends Authenticatable implements LaratrustUser
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, HasRolesAndPermissions;
 
+    protected $appends = ['full_name'];
+
     /**
      * Get the attributes that should be cast.
      *
@@ -43,6 +45,11 @@ class User extends Authenticatable implements LaratrustUser
         return ucfirst($value);
 
     }//end of get last name
+
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 
     public function getImagePathAttribute()
     {

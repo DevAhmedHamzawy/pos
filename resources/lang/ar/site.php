@@ -165,4 +165,8 @@ return [
 
     'total_after_benefits' => 'المجموع بعد الفائده',
 
+    'activity_logs' => 'سجلات التحركات',
+
+    'Log(s)' => 'سجلات التحركات',
+
 ];

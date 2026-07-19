@@ -76,6 +76,9 @@ class UserController extends Controller
         $user->addRole('admin');
         $user->syncPermissions($request->permissions);
 
+        activity()->log('قام '.auth()->user()->full_name.' بإضافة مشرف '.$user->full_name);
+
+
         session()->flash('success', __('site.added_successfully'));
         return redirect()->route('admin.users.index');
 
@@ -121,6 +124,8 @@ class UserController extends Controller
 
         $user->update($request_data);
 
+        activity()->log('قام '.auth()->user()->full_name.' بتعديل مشرف '.$user->full_name);
+
         $user->syncPermissions($request->permissions);
         session()->flash('success', __('site.updated_successfully'));
         return redirect()->route('admin.users.index');
@@ -137,6 +142,9 @@ class UserController extends Controller
         }//end of if
 
         $user->delete();
+
+        activity()->log('قام '.auth()->user()->full_name.' بحذف مشرف '.$user->full_name);
+
         session()->flash('success', __('site.deleted_successfully'));
         return redirect()->route('admin.users.index');
 

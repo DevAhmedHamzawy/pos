@@ -46,7 +46,10 @@ class SpacePartController extends Controller
             'price' => 'required|numeric',
         ]);
 
-        SpacePart::create($request->all());
+        $spacePart = SpacePart::create($request->all());
+
+        activity()->log('قام '.auth()->user()->full_name.' بإضافة قطعة غيار'.$spacePart->name);
+
 
         session()->flash('success', __('site.added_successfully'));
         return redirect()->route('admin.space_parts.index');
@@ -72,6 +75,8 @@ class SpacePartController extends Controller
 
         $spacePart->update($request->all());
 
+        activity()->log('قام '.auth()->user()->full_name.' بتعديل قطعة غيار'.$spacePart->name);
+
         session()->flash('success', __('site.updated_successfully'));
         return redirect()->route('admin.space_parts.index');
 
@@ -83,6 +88,9 @@ class SpacePartController extends Controller
     public function destroy(SpacePart $spacePart)
     {
         $spacePart->delete();
+
+        activity()->log('قام '.auth()->user()->full_name.' بحذف قطعة غيار'.$spacePart->name);
+
         session()->flash('success', __('site.deleted_successfully'));
         return redirect()->route('admin.space_parts.index');
     }

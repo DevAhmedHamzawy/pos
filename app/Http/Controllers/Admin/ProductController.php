@@ -92,6 +92,8 @@ class ProductController extends Controller
 
         $product = Product::create($request_data);
 
+        activity()->log('قام '.auth()->user()->full_name.' بإضافة منتج'.$product->name);
+
         $request->merge(['product_id' => $product->id, 'user_id' => auth()->user()->id, 'quantity' => $request->stock, 'status' => 'stock_purchase', 'type' => 'in', 'description' => 'initial stock']);
         DB::table('products_log_activity')->insert($request->only(['user_id', 'product_id', 'user_id', 'quantity', 'status', 'type', 'description']));
 
@@ -164,6 +166,9 @@ class ProductController extends Controller
 
         }
 
+        activity()->log('قام '.auth()->user()->full_name.' بتعديل منتج'.$product->name);
+
+
         session()->flash('success', __('site.updated_successfully'));
         return redirect()->route('admin.products.index');
     }
@@ -179,7 +184,11 @@ class ProductController extends Controller
 
         }//end of if
 
+        $name = $product->translate('ar')->name;
         $product->delete();
+
+        activity()->log('قام '.auth()->user()->full_name.' بحذف منتج'.$name);
+
         session()->flash('success', __('site.deleted_successfully'));
         return redirect()->route('admin.products.index');
     }
