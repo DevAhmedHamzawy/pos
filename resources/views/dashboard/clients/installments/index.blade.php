@@ -43,6 +43,7 @@
                                     <th>@lang('site.due_date')</th>
                                     <th>@lang('site.paid_at')</th>
                                     <th>@lang('site.paid_amount')</th>
+                                    <th>@lang('site.status')</th>
                                     <th>@lang('site.notes')</th>
                                     <th>@lang('site.action')</th>
                                 </tr>
@@ -58,6 +59,13 @@
                                         <td>{{ $installment->due_date }}</td>
                                         <td>{{ $installment->paid_at }}</td>
                                         <td>{{ $installment->paid_amount }}</td>
+                                        <td>
+                                            @if ($installment->status == 'paid')
+                                                <span class="badge bg-success">مسدد</span>
+                                            @elseif ($installment->status == 'unpaid')
+                                                <span class="badge bg-danger">غير مسدد</span>
+                                            @endif
+                                        </td>
                                         <td>{{ $installment->notes }}</td>
 
                                         <td>

@@ -44,7 +44,8 @@
 
                         <div class="form-group">
                             <label>@lang('site.paid_amount')</label>
-                            <input type="number" name="paid_amount" class="form-control" value="{{ old('paid_amount') }}">
+                            <input type="number" name="paid_amount" step="0.01" class="form-control"
+                                value="{{ old('paid_amount') }}">
                         </div>
 
 

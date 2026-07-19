@@ -320,6 +320,8 @@
     {{-- morris --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="{{ asset('dashboard_files/plugins/morris/morris.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
     {{-- custom js --}}
     <script src="{{ asset('dashboard_files/js/custom/image_preview.js') }}"></script>

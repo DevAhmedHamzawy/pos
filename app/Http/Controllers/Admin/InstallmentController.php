@@ -30,12 +30,18 @@ class InstallmentController extends Controller
     public function update(Request $request, Client $client, Order $order, Installment $installment)
     {
         $request->validate([
-            'paid_amount' => 'required|numeric',
+            'paid_amount' => 'required|numeric|max:' . $installment->amount,
         ]);
 
         $request->merge([
             'paid_at' => now()
         ]);
+
+        if ($request->paid_amount == $installment->amount) {
+            $request->merge([
+                'status' => 'paid'
+            ]);
+        }
 
         $installment->update($request->all());
 

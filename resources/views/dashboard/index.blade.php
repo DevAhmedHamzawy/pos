@@ -16,6 +16,81 @@
 
             <div class="row">
 
+                <div class="col-lg-3 col-xs-6">
+                    <div class="small-box bg-aqua">
+                        <div class="inner">
+                            <h3>{{ $todaySales }}</h3>
+
+                            <p>@lang('site.today_sales')</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-first-order"></i>
+                        </div>
+                        <a href="{{ route('admin.orders.index') }}" class="small-box-footer">@lang('site.read') <i
+                                class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-xs-6">
+                    <div class="small-box bg-aqua">
+                        <div class="inner">
+                            <h3>{{ $todayOrders }}</h3>
+
+                            <p>@lang('site.today_orders')</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-archive"></i>
+                        </div>
+                        <a href="{{ route('admin.orders.index') }}" class="small-box-footer">@lang('site.read') <i
+                                class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-xs-6">
+                    <div class="small-box bg-aqua">
+                        <div class="inner">
+                            <h3>{{ $almostProducts }}</h3>
+
+                            <p>@lang('site.almost_products')</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-archive"></i>
+                        </div>
+                        <a href="{{ route('admin.products.index') }}" class="small-box-footer">@lang('site.read') <i
+                                class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-xs-6">
+                    <div class="small-box bg-aqua">
+                        <div class="inner">
+                            <h3>{{ $maintenances }}</h3>
+
+                            <p>@lang('site.maintenance_devices')</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-archive"></i>
+                        </div>
+                        <a href="{{ route('admin.orders.index') }}" class="small-box-footer">@lang('site.read') <i
+                                class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-xs-6">
+                    <div class="small-box bg-aqua">
+                        <div class="inner">
+                            <h3>{{ $dueInstallments }}</h3>
+
+                            <p>@lang('site.due_installments')</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-archive"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">@lang('site.read') <i
+                                class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+
                 {{-- categories --}}
                 <div class="col-lg-3 col-xs-6">
                     <div class="small-box bg-aqua">
@@ -81,6 +156,423 @@
                 </div>
 
             </div><!-- end of row -->
+
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">مبيعات آخر 30 يوم</h3>
+                </div>
+
+                <div class="box-body">
+                    <canvas id="salesChart" height="100"></canvas>
+                </div>
+            </div>
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">الإيرادات</h3>
+                </div>
+
+                <div class="box-body">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        منتجات اوشكت على النفاذ ({{ $almostProducts }})
+                    </h3>
+                </div>
+
+                <div class="box-body table-responsive">
+                    <table class="table table-bordered table-hover">
+
+                        <thead>
+                            <tr>
+                                <th>المنتج</th>
+                                <th>المخزون</th>
+                                <th>الحاله</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @forelse($almostProductsTable as $product)
+                                <tr>
+                                    <td>{{ $product->name }}</td>
+                                    <td>{{ $product->stock }}</td>
+                                    <td>
+                                        @if ($product->stock == 0)
+                                            <span class="label label-danger">
+                                                نفد المخزون
+                                            </span>
+                                        @else
+                                            <span class="label label-success">
+                                                ناقص من المخزون
+                                            </span>
+                                        @endif
+
+                                    </td>
+                                </tr>
+
+                            @empty
+
+                                <tr>
+                                    <td colspan="2" class="text-center">
+                                        لا توجد منتجات منتهية
+                                    </td>
+                                </tr>
+                            @endforelse
+
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+
+
+            <div class="box box-success">
+
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        أكثر المنتجات مبيعًا
+                    </h3>
+                </div>
+
+                <div class="box-body table-responsive">
+
+                    <table class="table table-bordered">
+
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>المنتج</th>
+                                <th>الكمية</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach ($topProducts as $product)
+                                <tr>
+
+                                    <td>{{ $loop->iteration }}</td>
+
+                                    <td>{{ $product->name }}</td>
+
+                                    <td>{{ $product->total_quantity }}</td>
+
+
+                                </tr>
+                            @endforeach
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <div class="box box-primary">
+
+                <div class="box-header with-border">
+
+                    <h3 class="box-title">
+
+                        آخر الطلبات
+
+                    </h3>
+
+                </div>
+
+                <div class="box-body table-responsive">
+
+                    <table class="table table-hover">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>#</th>
+
+                                <th>العميل</th>
+
+                                <th>الإجمالى</th>
+
+                                <th>التاريخ</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @foreach ($latestOrders as $order)
+                                <tr>
+
+                                    <td>#{{ $order->id }}</td>
+
+                                    <td>{{ $order->client->name }}</td>
+
+                                    <td>{{ number_format($order->total_price, 2) }}</td>
+
+                                    <td>{{ $order->created_at->diffForHumans() }}</td>
+
+                                </tr>
+                            @endforeach
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <div class="box box-primary">
+
+                <div class="box-header with-border">
+                    <h3 class="box-title">حالة الصيانة</h3>
+                </div>
+
+                <div class="box-body">
+
+                    <strong>في الانتظار</strong>
+                    <span class="pull-right">{{ $pending }} جهاز</span>
+
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-danger" style="width:{{ $pendingWidth }}%"></div>
+                    </div>
+
+                    <strong>جاري العمل</strong>
+                    <span class="pull-right">{{ $inProgress }} جهاز</span>
+
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-warning" style="width:{{ $inProgressWidth }}%"></div>
+                    </div>
+
+                    <strong>تم الإصلاح</strong>
+                    <span class="pull-right">{{ $completed }} جهاز</span>
+
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-info" style="width:{{ $completedWidth }}%"></div>
+                    </div>
+
+                    <strong>تم التسليم</strong>
+                    <span class="pull-right">{{ $delivered }} جهاز</span>
+
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-success" style="width:{{ $deliveredWidth }}%"></div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                {{-- العملاء الجدد --}}
+                <div class="col-md-6">
+                    <div class="info-box bg-aqua">
+                        <span class="info-box-icon">
+                            <i class="fa fa-users"></i>
+                        </span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">العملاء الجدد هذا الشهر</span>
+                            <span class="info-box-number">
+                                {{ $newClientsMonth }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- أفضل عميل --}}
+                <div class="col-md-6">
+                    <div class="info-box bg-green">
+
+                        <span class="info-box-icon">
+                            <i class="fa fa-trophy"></i>
+                        </span>
+
+                        <div class="info-box-content">
+
+                            <span class="info-box-text">
+                                أفضل عميل شراءً
+                            </span>
+
+                            @if ($topClient)
+                                <span class="info-box-number">
+                                    {{ $topClient->client->name }}
+                                </span>
+
+                                <span>
+                                    إجمالى المشتريات :
+                                    {{ number_format($topClient->total_sales, 2) }}
+                                    ج.م
+                                </span>
+                            @else
+                                <span class="info-box-number">
+                                    لا يوجد بيانات
+                                </span>
+                            @endif
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                {{-- إجمالى المخزون --}}
+                <div class="col-md-4">
+                    <div class="info-box bg-aqua">
+
+                        <span class="info-box-icon">
+                            <i class="fa fa-cubes"></i>
+                        </span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">
+                                إجمالى المخزون
+                            </span>
+
+                            <span class="info-box-number">
+                                {{ number_format($stockValue) }}
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+
+                {{-- منتجات على وشك النفاذ --}}
+                <div class="col-md-4">
+                    <div class="info-box bg-yellow">
+
+                        <span class="info-box-icon">
+                            <i class="fa fa-exclamation-triangle"></i>
+                        </span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">
+                                منتجات على وشك النفاذ
+                            </span>
+
+                            <span class="info-box-number">
+                                {{ $stockValueDecreasing }}
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+
+                {{-- منتجات نفدت --}}
+                <div class="col-md-4">
+                    <div class="info-box bg-red">
+
+                        <span class="info-box-icon">
+                            <i class="fa fa-times-circle"></i>
+                        </span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">
+                                منتجات نفدت
+                            </span>
+
+                            <span class="info-box-number">
+                                {{ $stockExpired }}
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-3">
+                    <div class="info-box bg-green">
+                        <span class="info-box-icon">
+                            <i class="fa fa-money"></i>
+                        </span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">
+                                أرباح اليوم
+                            </span>
+
+                            <span class="info-box-number">
+                                {{ number_format($todayProfit, 2) }} ج.م
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-3">
+                    <div class="info-box bg-aqua">
+                        <span class="info-box-icon">
+                            <i class="fa fa-calendar"></i>
+                        </span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">
+                                أرباح الأسبوع
+                            </span>
+
+                            <span class="info-box-number">
+                                {{ number_format($weekProfit, 2) }} ج.م
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-3">
+                    <div class="info-box bg-yellow">
+                        <span class="info-box-icon">
+                            <i class="fa fa-line-chart"></i>
+                        </span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">
+                                أرباح الشهر
+                            </span>
+
+                            <span class="info-box-number">
+                                {{ number_format($monthProfit, 2) }} ج.م
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-3">
+                    <div class="info-box bg-red">
+                        <span class="info-box-icon">
+                            <i class="fa fa-bar-chart"></i>
+                        </span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">
+                                أرباح السنة
+                            </span>
+
+                            <span class="info-box-number">
+                                {{ number_format($yearProfit, 2) }} ج.م
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
 
             <div class="box box-solid">
 
@@ -525,6 +1017,66 @@
             pointSize: 4,
             gridTextFamily: 'Open Sans',
             gridTextSize: 10
+        });
+
+
+        var ctx = document.getElementById('salesChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: @json($salesLabels),
+                datasets: [{
+                    label: 'المبيعات',
+                    data: @json($salesData),
+                    borderColor: '#3c8dbc',
+                    backgroundColor: 'rgba(60,141,188,.15)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: .3,
+                    pointRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('revenueChart'), {
+
+            type: 'doughnut',
+
+            data: {
+
+                labels: [
+                    'المبيعات',
+                    'الصيانة',
+                    'قطع الغيار'
+                ],
+
+                datasets: [{
+
+                    data: [
+                        {{ $revenues['sales'] }},
+                        {{ $revenues['maintenance'] }},
+                        {{ $revenues['parts'] }}
+                    ],
+
+                    backgroundColor: [
+                        '#00a65a',
+                        '#3c8dbc',
+                        '#f39c12'
+                    ]
+
+                }]
+            },
+
         });
     </script>
 @endpush
