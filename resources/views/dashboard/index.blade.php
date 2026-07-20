@@ -49,21 +49,6 @@
                 <div class="col-lg-3 col-xs-6">
                     <div class="small-box bg-aqua">
                         <div class="inner">
-                            <h3>{{ $almostProducts }}</h3>
-
-                            <p>@lang('site.almost_products')</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fa fa-archive"></i>
-                        </div>
-                        <a href="{{ route('admin.products.index') }}" class="small-box-footer">@lang('site.read') <i
-                                class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-xs-6">
-                    <div class="small-box bg-aqua">
-                        <div class="inner">
                             <h3>{{ $maintenances }}</h3>
 
                             <p>@lang('site.maintenance_devices')</p>
@@ -76,20 +61,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-3 col-xs-6">
-                    <div class="small-box bg-aqua">
-                        <div class="inner">
-                            <h3>{{ $dueInstallments }}</h3>
 
-                            <p>@lang('site.due_installments')</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fa fa-archive"></i>
-                        </div>
-                        <a href="#" class="small-box-footer">@lang('site.read') <i
-                                class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
 
                 {{-- categories --}}
                 <div class="col-lg-3 col-xs-6">
@@ -108,7 +80,7 @@
                 </div>
 
                 {{-- products --}}
-                <div class="col-lg-3 col-xs-6">
+                <div class="col-lg-4 col-xs-6">
                     <div class="small-box bg-green">
                         <div class="inner">
                             <h3>{{ $products_count }}</h3>
@@ -124,7 +96,7 @@
                 </div>
 
                 {{-- clients --}}
-                <div class="col-lg-3 col-xs-6">
+                <div class="col-lg-4 col-xs-6">
                     <div class="small-box bg-red">
                         <div class="inner">
                             <h3>{{ $clients_count }}</h3>
@@ -140,7 +112,7 @@
                 </div>
 
                 {{-- users --}}
-                <div class="col-lg-3 col-xs-6">
+                <div class="col-lg-4 col-xs-6">
                     <div class="small-box bg-yellow">
                         <div class="inner">
                             <h3>{{ $users_count }}</h3>
@@ -168,210 +140,227 @@
                 </div>
             </div>
 
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">الإيرادات</h3>
-                </div>
+            <div class="row">
 
-                <div class="box-body">
-                    <canvas id="revenueChart"></canvas>
-                </div>
-            </div>
+                <div class="col-md-6">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">الإيرادات</h3>
+                        </div>
 
-            <div class="box box-danger">
-                <div class="box-header with-border">
-                    <h3 class="box-title">
-                        منتجات اوشكت على النفاذ ({{ $almostProducts }})
-                    </h3>
-                </div>
-
-                <div class="box-body table-responsive">
-                    <table class="table table-bordered table-hover">
-
-                        <thead>
-                            <tr>
-                                <th>المنتج</th>
-                                <th>المخزون</th>
-                                <th>الحاله</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-
-                            @forelse($almostProductsTable as $product)
-                                <tr>
-                                    <td>{{ $product->name }}</td>
-                                    <td>{{ $product->stock }}</td>
-                                    <td>
-                                        @if ($product->stock == 0)
-                                            <span class="label label-danger">
-                                                نفد المخزون
-                                            </span>
-                                        @else
-                                            <span class="label label-success">
-                                                ناقص من المخزون
-                                            </span>
-                                        @endif
-
-                                    </td>
-                                </tr>
-
-                            @empty
-
-                                <tr>
-                                    <td colspan="2" class="text-center">
-                                        لا توجد منتجات منتهية
-                                    </td>
-                                </tr>
-                            @endforelse
-
-                        </tbody>
-
-                    </table>
-                </div>
-            </div>
-
-
-            <div class="box box-success">
-
-                <div class="box-header with-border">
-                    <h3 class="box-title">
-                        أكثر المنتجات مبيعًا
-                    </h3>
-                </div>
-
-                <div class="box-body table-responsive">
-
-                    <table class="table table-bordered">
-
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>المنتج</th>
-                                <th>الكمية</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-
-                            @foreach ($topProducts as $product)
-                                <tr>
-
-                                    <td>{{ $loop->iteration }}</td>
-
-                                    <td>{{ $product->name }}</td>
-
-                                    <td>{{ $product->total_quantity }}</td>
-
-
-                                </tr>
-                            @endforeach
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
-
-
-            <div class="box box-primary">
-
-                <div class="box-header with-border">
-
-                    <h3 class="box-title">
-
-                        آخر الطلبات
-
-                    </h3>
-
-                </div>
-
-                <div class="box-body table-responsive">
-
-                    <table class="table table-hover">
-
-                        <thead>
-
-                            <tr>
-
-                                <th>#</th>
-
-                                <th>العميل</th>
-
-                                <th>الإجمالى</th>
-
-                                <th>التاريخ</th>
-
-                            </tr>
-
-                        </thead>
-
-                        <tbody>
-
-                            @foreach ($latestOrders as $order)
-                                <tr>
-
-                                    <td>#{{ $order->id }}</td>
-
-                                    <td>{{ $order->client->name }}</td>
-
-                                    <td>{{ number_format($order->total_price, 2) }}</td>
-
-                                    <td>{{ $order->created_at->diffForHumans() }}</td>
-
-                                </tr>
-                            @endforeach
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
-
-
-            <div class="box box-primary">
-
-                <div class="box-header with-border">
-                    <h3 class="box-title">حالة الصيانة</h3>
-                </div>
-
-                <div class="box-body">
-
-                    <strong>في الانتظار</strong>
-                    <span class="pull-right">{{ $pending }} جهاز</span>
-
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-danger" style="width:{{ $pendingWidth }}%"></div>
+                        <div class="box-body">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
                     </div>
+                </div>
 
-                    <strong>جاري العمل</strong>
-                    <span class="pull-right">{{ $inProgress }} جهاز</span>
+                <div class="col-md-6">
+                    <div class="box box-success">
 
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-warning" style="width:{{ $inProgressWidth }}%"></div>
-                    </div>
+                        <div class="box-header with-border">
+                            <h3 class="box-title">
+                                أكثر المنتجات مبيعًا
+                            </h3>
+                        </div>
 
-                    <strong>تم الإصلاح</strong>
-                    <span class="pull-right">{{ $completed }} جهاز</span>
+                        <div class="box-body table-responsive">
 
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-info" style="width:{{ $completedWidth }}%"></div>
-                    </div>
+                            <table class="table table-bordered">
 
-                    <strong>تم التسليم</strong>
-                    <span class="pull-right">{{ $delivered }} جهاز</span>
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>المنتج</th>
+                                        <th>الكمية</th>
+                                    </tr>
+                                </thead>
 
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-success" style="width:{{ $deliveredWidth }}%"></div>
+                                <tbody>
+
+                                    @foreach ($topProducts as $product)
+                                        <tr>
+
+                                            <td>{{ $loop->iteration }}</td>
+
+                                            <td>{{ $product->name }}</td>
+
+                                            <td>{{ $product->total_quantity }}</td>
+
+
+                                        </tr>
+                                    @endforeach
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
                     </div>
 
                 </div>
 
             </div>
+
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="box box-danger">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">
+                                منتجات اوشكت على النفاذ ({{ $almostProducts }})
+                            </h3>
+                        </div>
+
+                        <div class="box-body table-responsive">
+                            <table class="table table-bordered table-hover">
+
+                                <thead>
+                                    <tr>
+                                        <th>المنتج</th>
+                                        <th>المخزون</th>
+                                        <th>الحاله</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    @forelse($almostProductsTable as $product)
+                                        <tr>
+                                            <td>{{ $product->name }}</td>
+                                            <td>{{ $product->stock }}</td>
+                                            <td>
+                                                @if ($product->stock == 0)
+                                                    <span class="label label-danger">
+                                                        نفد المخزون
+                                                    </span>
+                                                @else
+                                                    <span class="label label-success">
+                                                        ناقص من المخزون
+                                                    </span>
+                                                @endif
+
+                                            </td>
+                                        </tr>
+
+                                    @empty
+
+                                        <tr>
+                                            <td colspan="2" class="text-center">
+                                                لا توجد منتجات منتهية
+                                            </td>
+                                        </tr>
+                                    @endforelse
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="box box-primary">
+
+                        <div class="box-header with-border">
+
+                            <h3 class="box-title">
+
+                                آخر الطلبات
+
+                            </h3>
+
+                        </div>
+
+                        <div class="box-body table-responsive">
+
+                            <table class="table table-hover">
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th>#</th>
+
+                                        <th>العميل</th>
+
+                                        <th>الإجمالى</th>
+
+                                        <th>التاريخ</th>
+
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                    @foreach ($latestOrders as $order)
+                                        <tr>
+
+                                            <td>#{{ $order->id }}</td>
+
+                                            <td>{{ $order->client->name }}</td>
+
+                                            <td>{{ number_format($order->total_price, 2) }}</td>
+
+                                            <td>{{ $order->created_at->diffForHumans() }}</td>
+
+                                        </tr>
+                                    @endforeach
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="box box-primary">
+
+                        <div class="box-header with-border">
+                            <h3 class="box-title">حالة الصيانة</h3>
+                        </div>
+
+                        <div class="box-body">
+
+                            <strong>في الانتظار</strong>
+                            <span class="pull-right">{{ $pending }} جهاز</span>
+
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-danger" style="width:{{ $pendingWidth }}%"></div>
+                            </div>
+
+                            <strong>جاري العمل</strong>
+                            <span class="pull-right">{{ $inProgress }} جهاز</span>
+
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-warning" style="width:{{ $inProgressWidth }}%">
+                                </div>
+                            </div>
+
+                            <strong>تم الإصلاح</strong>
+                            <span class="pull-right">{{ $completed }} جهاز</span>
+
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-info" style="width:{{ $completedWidth }}%"></div>
+                            </div>
+
+                            <strong>تم التسليم</strong>
+                            <span class="pull-right">{{ $delivered }} جهاز</span>
+
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-success" style="width:{{ $deliveredWidth }}%">
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
 
             <div class="row">
 
@@ -451,26 +440,7 @@
                     </div>
                 </div>
 
-                {{-- منتجات على وشك النفاذ --}}
-                <div class="col-md-4">
-                    <div class="info-box bg-yellow">
 
-                        <span class="info-box-icon">
-                            <i class="fa fa-exclamation-triangle"></i>
-                        </span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">
-                                منتجات على وشك النفاذ
-                            </span>
-
-                            <span class="info-box-number">
-                                {{ $stockValueDecreasing }}
-                            </span>
-                        </div>
-
-                    </div>
-                </div>
 
                 {{-- منتجات نفدت --}}
                 <div class="col-md-4">
@@ -487,6 +457,27 @@
 
                             <span class="info-box-number">
                                 {{ $stockExpired }}
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <div class="info-box bg-red">
+
+                        <span class="info-box-icon">
+                            <i class="fa fa-times-circle"></i>
+                        </span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">
+                                منتجات اوشكت على النفاذ
+                            </span>
+
+                            <span class="info-box-number">
+                                {{ $almostProducts }}
                             </span>
                         </div>
 
@@ -575,62 +566,6 @@
             </div>
 
 
-            <div class="box box-primary">
-
-                <div class="box-header with-border">
-                    <h3 class="box-title">
-                        <i class="fa fa-history"></i>
-                        {{ __('site.activity_logs') }}
-                    </h3>
-                </div>
-
-                <div class="box-body p-0">
-
-                    @if ($activityLogs->count())
-                        <ul class="products-list product-list-in-box">
-
-                            @foreach ($activityLogs as $log)
-                                <li class="item">
-
-
-
-                                    <div class="product-info">
-
-                                        <span class="product-title">
-
-                                            {{ ucfirst($log->description) }}
-
-                                            <small class="pull-right text-muted">
-                                                <i class="fa fa-clock-o"></i>
-                                                {{ $log->created_at->diffForHumans() }}
-                                            </small>
-
-                                        </span>
-
-
-
-                                    </div>
-
-                                </li>
-                            @endforeach
-
-                        </ul>
-                    @else
-                        <div class="text-center" style="padding:50px">
-
-                            <i class="fa fa-history fa-4x text-muted"></i>
-
-                            <h4 class="text-muted">
-                                No Activity Logs Found
-                            </h4>
-
-                        </div>
-                    @endif
-
-                </div>
-
-            </div>
-
             <div class="box box-solid">
 
                 <div class="box-header">
@@ -645,7 +580,7 @@
             <div class="row">
 
                 <!-- الأقساط المتأخرة -->
-                <div class="col-lg-3 col-xs-6">
+                <div class="col-lg-6 col-xs-6">
                     <div class="small-box bg-red">
                         <div class="inner">
                             <h3>{{ $lateInstallmentsCount }}</h3>
@@ -661,7 +596,7 @@
                 </div>
 
                 <!-- إجمالي المتأخرات -->
-                <div class="col-lg-3 col-xs-6">
+                <div class="col-lg-6 col-xs-6">
                     <div class="small-box bg-yellow">
                         <div class="inner">
                             <h3>{{ number_format($lateInstallmentsTotal, 2) }}</h3>
@@ -679,7 +614,7 @@
             </div>
             <div class="row">
 
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="info-box bg-aqua">
                         <span class="info-box-icon">
                             <i class="fa fa-list"></i>
@@ -697,7 +632,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="info-box bg-green">
                         <span class="info-box-icon">
                             <i class="fa fa-check"></i>
@@ -715,7 +650,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="info-box bg-yellow">
                         <span class="info-box-icon">
                             <i class="fa fa-clock-o"></i>
@@ -764,7 +699,7 @@
 
                         <tbody>
 
-                            @forelse($todayInstallments as $installment)
+                            @forelse($todayInstallmentsTable as $installment)
                                 <tr>
 
                                     <td>{{ $loop->iteration }}</td>
@@ -835,28 +770,13 @@
                     </div>
                 </div>
 
-                <!-- متأخر -->
-                <div class="col-lg-3 col-xs-6">
-                    <div class="small-box bg-red">
-                        <div class="inner">
-                            <h3>{{ $lateInstallmentsCount }}</h3>
-                            <p>الأقساط المتأخرة</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fa fa-exclamation-triangle"></i>
-                        </div>
-                        <a href="#" class="small-box-footer">
-                            عرض التفاصيل
-                            <i class="fa fa-arrow-circle-left"></i>
-                        </a>
-                    </div>
-                </div>
+
 
                 <!-- المحصل -->
                 <div class="col-lg-3 col-xs-6">
                     <div class="small-box bg-green">
                         <div class="inner">
-                            <h3>{{ number_format($paidThisMonth, 2) }}</h3>
+                            <h3>{{ $paidThisMonth }}</h3>
                             <p>المحصلة هذا الشهر</p>
                         </div>
                         <div class="icon">
@@ -873,7 +793,7 @@
                 <div class="col-lg-3 col-xs-6">
                     <div class="small-box bg-yellow">
                         <div class="inner">
-                            <h3>{{ $next3Days }}</h3>
+                            <h3>{{ $next3DaysCount }}</h3>
                             <p>تستحق خلال 3 أيام</p>
                         </div>
                         <div class="icon">
@@ -973,7 +893,7 @@
 
                                 <tbody>
 
-                                    @forelse($nextInstallments as $item)
+                                    @forelse($next3Days as $item)
                                         <tr>
                                             <td>{{ $item->order->client->name }}</td>
                                             <td>#{{ $item->installment_no }}</td>
@@ -1102,6 +1022,65 @@
 
                 </div>
             @endforeach
+
+
+
+            <div class="box box-primary">
+
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        <i class="fa fa-history"></i>
+                        {{ __('site.activity_logs') }}
+                    </h3>
+                </div>
+
+                <div class="box-body p-0">
+
+                    @if ($activityLogs->count())
+                        <ul class="products-list product-list-in-box">
+
+                            @foreach ($activityLogs as $log)
+                                <li class="item">
+
+
+
+                                    <div class="product-info">
+
+                                        <span class="product-title">
+
+                                            {{ ucfirst($log->description) }}
+
+                                            <small class="pull-right text-muted">
+                                                <i class="fa fa-clock-o"></i>
+                                                {{ $log->created_at->diffForHumans() }}
+                                            </small>
+
+                                        </span>
+
+
+
+                                    </div>
+
+                                </li>
+                            @endforeach
+
+                        </ul>
+                    @else
+                        <div class="text-center" style="padding:50px">
+
+                            <i class="fa fa-history fa-4x text-muted"></i>
+
+                            <h4 class="text-muted">
+                                No Activity Logs Found
+                            </h4>
+
+                        </div>
+                    @endif
+
+                </div>
+
+            </div>
+
 
         </section><!-- end of content -->
 

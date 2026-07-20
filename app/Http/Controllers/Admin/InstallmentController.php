@@ -29,6 +29,7 @@ class InstallmentController extends Controller
 
     public function update(Request $request, Client $client, Order $order, Installment $installment)
     {
+
         $request->validate([
             'paid_amount' => 'required|numeric|max:' . $installment->amount,
         ]);
@@ -40,6 +41,10 @@ class InstallmentController extends Controller
         if ($request->paid_amount == $installment->amount) {
             $request->merge([
                 'status' => 'paid'
+            ]);
+        }else{
+            $request->merge([
+                'status' => 'unpaid'
             ]);
         }
 

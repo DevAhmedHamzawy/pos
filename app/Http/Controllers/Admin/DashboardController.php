@@ -27,28 +27,16 @@ $todaySales = Order::whereDate('created_at', today())
     $todayOrders = Order::whereDate('created_at', today())
         ->count();
 
-
-        $almostProducts = Product::whereColumn('stock', '<=', 'stock_limit')->count();
-
-        $almostProductsTable = Product::where('stock', '>', 0)
-    ->whereColumn('stock', '<=', 'stock_limit')
-    ->orderBy('stock')
-    ->take(10)
-    ->get();
-
-        $maintenances = Maintenance::count();
+                $maintenances = Maintenance::count();
 
 
-        $dueInstallments = Installment::where(function ($query) {
-                        $query->whereDate('due_date', '<', today())->whereColumn('paid_amount', '<', 'amount');
-                    })
-                    ->orWhere(function ($query) {
-                        $query->where('paid_amount', '>' , 0)
-                            ->whereColumn('paid_amount', '<', 'amount');
-                    })
-                        ->count();
 
-             $sales = Order::selectRaw('DATE(created_at) as date, SUM(total_price) as total')
+                  $categories_count = Category::count();
+        $products_count = Product::count();
+        $clients_count = Client::count();
+        $users_count = User::whereHasRole('admin')->count();
+
+         $sales = Order::selectRaw('DATE(created_at) as date, SUM(total_price) as total')
                 ->where('created_at', '>=', now()->subDays(29)->startOfDay())
                 ->groupBy('date')
                 ->pluck('total', 'date');
@@ -63,6 +51,7 @@ $todaySales = Order::whereDate('created_at', today())
                 $salesData[] = $sales[$date->format('Y-m-d')] ?? 0;
             }
 
+
             $salesRevenue = Order::sum('total_price');
             $maintenanceRevenue = Maintenance::sum('price');
             $spacePartRevenue = DB::table('maintenance_space_part')->sum('price');
@@ -72,17 +61,6 @@ $todaySales = Order::whereDate('created_at', today())
     'maintenance' => $maintenanceRevenue,
     'parts' => $spacePartRevenue,
 ];
-
-$nextInstallments = Installment::with('order.client')
-    ->whereBetween('due_date',[
-        today(),
-        today()->addDays(3)
-    ])
-    ->where('paid_amount', 0)
-    ->orderBy('due_date')
-    ->limit(10)
-    ->get();
-
 
 
 $topProducts = DB::table('product_order')
@@ -101,65 +79,26 @@ $topProducts = DB::table('product_order')
     ->take(10)
     ->get();
 
-    $latestOrders = Order::with('client')
+
+        $almostProducts = Product::where('stock', '<=', 0)->whereColumn('stock', '<=', 'stock_limit')->count();
+
+        $almostProductsTable = Product::where('stock', '<=', 0)
+    ->whereColumn('stock', '<=', 'stock_limit')
+    ->orderBy('stock')
+    ->take(10)
+    ->get();
+
+ $latestOrders = Order::with('client')
     ->latest()
     ->take(10)
     ->get();
 
-
-        $categories_count = Category::count();
-        $products_count = Product::count();
-        $clients_count = Client::count();
-        $users_count = User::whereHasRole('admin')->count();
-
-        $sales_data = Order::select(
-            DB::raw('YEAR(created_at) as year'),
-            DB::raw('MONTH(created_at) as month'),
-            DB::raw('SUM(total_price) as sum')
-        )
-        ->groupBy(
-            DB::raw('YEAR(created_at)'),
-            DB::raw('MONTH(created_at)')
-        )
-        ->get();
-
-        $todayInstallments = Installment::with('order.client')
-            ->whereDate('due_date', today())
-            ->where('paid_amount', 0)
-            ->count();
-
-            $paidThisMonth = Installment::whereMonth('paid_at',now()->month)
-    ->whereYear('paid_at',now()->year)
-    ->count();
-
-    $next3Days = Installment::whereBetween(
-        'due_date',
-        [today(),today()->addDays(3)]
-    )
-    ->where('paid_amount', 0)
-    ->count();
-
-    $nextInstallments = Installment::with('order.client')
-    ->whereBetween('due_date',[
-        today(),
-        today()->addDays(3)
-    ])
-    ->where('paid_amount', 0)
-    ->orderBy('due_date')
-    ->limit(10)
-    ->get();
-
-    $paidInstallments = Installment::with('order.client')
-    ->whereNotNull('paid_at')
-    ->latest('paid_at')
-    ->limit(10)
-    ->get();
-
-    $maintenanceStatus = Maintenance::selectRaw('status, COUNT(*) as total')
+       $maintenanceStatus = Maintenance::selectRaw('status, COUNT(*) as total')
         ->groupBy('status')
         ->pluck('total', 'status');
 
-    $pending = $maintenanceStatus['pending'] ?? 0;
+
+  $pending = $maintenanceStatus['pending'] ?? 0;
     $inProgress = $maintenanceStatus['in_progress'] ?? 0;
     $completed = $maintenanceStatus['completed'] ?? 0;
     $delivered = $maintenanceStatus['delivered'] ?? 0;
@@ -179,15 +118,6 @@ $deliveredWidth = 0;
     }
 
 
-    // إجمالى الأقساط
-$totalInstallmentsCount = Installment::count();
-
-// الأقساط المسددة
-$paidInstallmentsCount = Installment::where('status', 'paid')->count();
-
-// الأقساط المتبقية
-$remainingInstallmentsCount = Installment::where('status', 'unpaid')->count();
-
 
 $newClientsMonth = Client::whereMonth('created_at', now()->month)
     ->whereYear('created_at', now()->year)
@@ -203,7 +133,6 @@ $newClientsMonth = Client::whereMonth('created_at', now()->month)
     ->first();
 
     $stockValue = Product::sum('stock');
-    $stockValueDecreasing = Product::whereColumn('stock' , '<=' , 'stock_limit')->count();
     $stockExpired = Product::whereStock(0)->count();
 
 
@@ -274,22 +203,89 @@ $yearParts = DB::table('maintenance_space_part')->whereYear('created_at', now()-
 
 $yearProfit = $yearSales + $yearMaintenance + $yearParts;
 
-$activityLogs = Activity::orderBy('created_at', 'desc')->limit(10)->get();
+ $sales_data = Order::select(
+            DB::raw('YEAR(created_at) as year'),
+            DB::raw('MONTH(created_at) as month'),
+            DB::raw('SUM(total_price) as sum')
+        )
+        ->groupBy(
+            DB::raw('YEAR(created_at)'),
+            DB::raw('MONTH(created_at)')
+        )
+        ->get();
 
 
-$todayInstallments = Installment::with(['order.client'])
+    // إجمالى الأقساط
+$totalInstallmentsCount = Installment::count();
+
+// الأقساط المسددة
+$paidInstallmentsCount = Installment::where('status', 'paid')->count();
+
+// الأقساط المتبقية
+$remainingInstallmentsCount = Installment::where('status', 'unpaid')->count();
+
+
+$todayInstallmentsTable = Installment::with(['order.client'])
     ->whereDate('due_date', today())
-    ->whereIn('status', ['pending', 'late'])
+    ->where('status', 'unpaid')
     ->orderBy('due_date')
     ->get();
 
+   $todayInstallments = Installment::whereDate('due_date', today())
+            ->where('status', 'unpaid')
+            ->count();
+
+
+ $paidThisMonth = Installment::whereMonth('paid_at',now()->month)
+    ->whereYear('paid_at',now()->year)
+    ->where('status', 'paid')
+    ->count();
+
+    $next3DaysCount = Installment::whereBetween(
+        'due_date',
+        [today(),today()->addDays(3)]
+    )
+    ->where('status', 'unpaid')
+    ->count();
+
+$next3Days = Installment::with('order.client')
+    ->whereBetween('due_date',[
+        today(),
+        today()->addDays(3)
+    ])
+    ->where('status', 'unpaid')
+    ->orderBy('due_date')
+    ->limit(10)
+    ->get();
+
+
+
+
+    $paidInstallments = Installment::with('order.client')
+    ->where('status', 'paid')
+    ->latest('paid_at')
+    ->limit(10)
+    ->get();
+
+
+
+
+
+
+
+
+$activityLogs = Activity::orderBy('created_at', 'desc')->limit(10)->get();
+
+
+
+
         return view('dashboard.index', compact(
-            'todaySales', 'todayOrders', 'almostProducts', 'maintenances', 'dueInstallments',  'pending',
+            'todaySales', 'todayOrders', 'almostProducts', 'maintenances',  'pending',
         'inProgress',
         'completed',
-        'stockValue', 'stockValueDecreasing', 'stockExpired',
-        'totalInstallmentsCount', 'paidInstallmentsCount', 'remainingInstallmentsCount', 'todayInstallments' ,
+        'stockValue', 'stockExpired',
+        'totalInstallmentsCount', 'paidInstallmentsCount', 'remainingInstallmentsCount', 'todayInstallments' , 'todayInstallmentsTable' ,
         'deliveredWidth', 'pendingWidth', 'topClient', 'inProgressWidth', 'newClientsMonth', 'completedWidth',
-        'delivered', 'categories_count', 'topProducts', 'activityLogs', 'latestOrders' , 'yearProfit' , 'monthProfit' , 'weekProfit' , 'todayProfit' , 'products_count', 'clients_count', 'users_count', 'salesLabels' , 'salesData', 'revenues', 'almostProductsTable' , 'sales_data', 'todayInstallments', 'paidThisMonth', 'next3Days', 'nextInstallments', 'paidInstallments'));
+        'delivered', 'categories_count', 'topProducts', 'activityLogs', 'latestOrders' , 'yearProfit' , 'monthProfit' , 'weekProfit' , 'todayProfit' , 'products_count', 'clients_count', 'users_count', 'salesLabels' , 'salesData', 'revenues', 'almostProductsTable' , 'sales_data', 'todayInstallments', 'paidThisMonth', 'next3Days', 'next3DaysCount', 'paidInstallments'));
     }
 }

@@ -81,6 +81,7 @@
                                         'installments',
                                         'maintenances',
                                         'space_parts',
+                                        'activity_logs',
                                     ];
                                     $maps = ['create', 'read', 'update', 'delete'];
                                 @endphp
@@ -99,6 +100,10 @@
 
                                             @foreach ($maps as $map)
                                                 @if ($model == 'installments' && !in_array($map, ['read', 'update']))
+                                                    @continue
+                                                @endif
+
+                                                @if ($model == 'activity_logs' && !in_array($map, ['read']))
                                                     @continue
                                                 @endif
                                                 <label><input type="checkbox" name="permissions[]"
