@@ -169,4 +169,104 @@ return [
 
     'Log(s)' => 'سجلات التحركات',
 
+
+    'today_sales' => 'مبيعات اليوم',
+    'today_orders' => 'طلبات اليوم',
+    'maintenance_devices' => 'اجهزة الصيانة',
+
+    'last_30_days' => 'مبيعات آخر 30 يوم',
+
+    'profits' => 'الإيرادات',
+
+    'most_sold_products' => ' أكثر المنتجات مبيعًا',
+
+    'quiet_expired_products' => 'منتجات اوشكت على النفاذ',
+
+    'out_of_stock' => 'نفد المخزون',
+
+    'low_stock' => 'ناقص من المخزون',
+
+    'no_quiet_expired_products' => 'لا توجد منتجات منتهية',
+
+    'last_orders' => 'آخر الطلبات',
+
+    'maintenance_status' => 'حالة الصيانة',
+
+    'device' => 'الجهاز',
+
+    'new_clients_month' => 'العملاء الجدد هذا الشهر',
+
+    'best_client' => 'أفضل عميل شراءً',
+
+    'total_sales' => ': إجمالى المشتريات',
+
+    'egp' => 'ج.م',
+
+    'no_data' => 'لا يوجد بيانات',
+
+    'total_stock' => 'إجمالى المخزون',
+
+    'expired_products' => 'منتجات نفدت',
+
+    'almost_expired_products' => 'منتجات اوشكت على النفاذ',
+
+    'today_profit' => 'أرباح اليوم',
+
+    'weekly_profit' => 'أرباح الأسبوع',
+
+    'monthly_profit' => 'أرباح الشهر',
+
+    'yearly_profit' => 'أرباح السنه',
+
+    'sales_statistics' => 'احصائات المبيعات',
+
+    'late_installments' => 'الأقساط المتأخرة',
+
+    'late_installments_total' => 'إجمالي المتأخرات',
+
+    'total_installments' => ' إجمالى الأقساط',
+
+    'paid_installments' => 'المسدده',
+
+    'remaining_installments' => 'المتبقى',
+
+    'today_installments' => 'الأقساط المستحقة اليوم',
+
+    'paid' => 'مسدد',
+
+    'unpaid' => 'غير مسدد',
+
+    'no_today_installments' => 'لا توجد أقساط مستحقة اليوم',
+
+    'today_installments_deserved' => 'الأقساط المستحقة اليوم',
+
+    'this_month_installments' => 'المحصلة هذا الشهر',
+
+    'three_days_installments_deserved' => 'تستحق خلال 3 أيام',
+
+    'deserved' => 'الاستحقاق',
+
+    'remaining' => 'المتبقى',
+
+    'no_late_installments' => 'لا توجد أقساط متأخرة',
+
+    'three_days_installments' => 'الأقساط المستحقة خلال 3 أيام',
+
+    'no_close_installments' => 'لا توجد أقساط قريبة',
+
+    'last_paid_installments' => 'آخر الأقساط المحصلة',
+
+    'late_installment_no' => 'متأخر عن سداد القسط رقم ',
+
+    'order_specific' => 'الخاص بالطلب',
+
+    'paid_done' => 'تم سداد',
+
+    'from_total' => 'من إجمالى',
+
+    'remain' => 'ويتبقى',
+
+    'was_deserved' => 'كان موعد الاستحقاق',
+
+    'in_progress'  => 'فى التنفيذ',
 ];

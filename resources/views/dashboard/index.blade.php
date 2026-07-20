@@ -54,9 +54,9 @@
                             <p>@lang('site.maintenance_devices')</p>
                         </div>
                         <div class="icon">
-                            <i class="fa fa-archive"></i>
+                            <i class="fa fa-tablet"></i>
                         </div>
-                        <a href="{{ route('admin.orders.index') }}" class="small-box-footer">@lang('site.read') <i
+                        <a href="{{ route('admin.maintenances.index') }}" class="small-box-footer">@lang('site.read') <i
                                 class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
@@ -132,7 +132,7 @@
 
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">مبيعات آخر 30 يوم</h3>
+                    <h3 class="box-title">@lang('site.last_30_days')</h3>
                 </div>
 
                 <div class="box-body">
@@ -145,7 +145,7 @@
                 <div class="col-md-6">
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">الإيرادات</h3>
+                            <h3 class="box-title">@lang('site.profits')</h3>
                         </div>
 
                         <div class="box-body">
@@ -159,7 +159,7 @@
 
                         <div class="box-header with-border">
                             <h3 class="box-title">
-                                أكثر المنتجات مبيعًا
+                                @lang('site.most_sold_products')
                             </h3>
                         </div>
 
@@ -170,8 +170,8 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>المنتج</th>
-                                        <th>الكمية</th>
+                                        <th>@lang('site.product')</th>
+                                        <th>@lang('site.quantity')</th>
                                     </tr>
                                 </thead>
 
@@ -208,7 +208,7 @@
                     <div class="box box-danger">
                         <div class="box-header with-border">
                             <h3 class="box-title">
-                                منتجات اوشكت على النفاذ ({{ $almostProducts }})
+                                @lang('site.quiet_expired_products') ({{ $almostProducts }})
                             </h3>
                         </div>
 
@@ -217,9 +217,9 @@
 
                                 <thead>
                                     <tr>
-                                        <th>المنتج</th>
-                                        <th>المخزون</th>
-                                        <th>الحاله</th>
+                                        <th>@lang('site.product')</th>
+                                        <th>@lang('site.stock')</th>
+                                        <th>@lang('site.status')</th>
                                     </tr>
                                 </thead>
 
@@ -232,11 +232,11 @@
                                             <td>
                                                 @if ($product->stock == 0)
                                                     <span class="label label-danger">
-                                                        نفد المخزون
+                                                        @lang('site.out_of_stock')
                                                     </span>
                                                 @else
                                                     <span class="label label-success">
-                                                        ناقص من المخزون
+                                                        @lang('site.low_stock')
                                                     </span>
                                                 @endif
 
@@ -247,7 +247,7 @@
 
                                         <tr>
                                             <td colspan="2" class="text-center">
-                                                لا توجد منتجات منتهية
+                                                @lang('site.no_quiet_expired_products')
                                             </td>
                                         </tr>
                                     @endforelse
@@ -265,7 +265,7 @@
 
                             <h3 class="box-title">
 
-                                آخر الطلبات
+                                @lang('site.last_orders')
 
                             </h3>
 
@@ -281,11 +281,11 @@
 
                                         <th>#</th>
 
-                                        <th>العميل</th>
+                                        <th>@lang('site.client')</th>
 
-                                        <th>الإجمالى</th>
+                                        <th>@lang('site.total')</th>
 
-                                        <th>التاريخ</th>
+                                        <th>@lang('site.date')</th>
 
                                     </tr>
 
@@ -319,35 +319,35 @@
                     <div class="box box-primary">
 
                         <div class="box-header with-border">
-                            <h3 class="box-title">حالة الصيانة</h3>
+                            <h3 class="box-title">@lang('site.maintenance_status')</h3>
                         </div>
 
                         <div class="box-body">
 
-                            <strong>في الانتظار</strong>
-                            <span class="pull-right">{{ $pending }} جهاز</span>
+                            <strong>@lang('site.pending')</strong>
+                            <span class="pull-right">{{ $pending }} @lang('site.device')</span>
 
                             <div class="progress">
                                 <div class="progress-bar progress-bar-danger" style="width:{{ $pendingWidth }}%"></div>
                             </div>
 
-                            <strong>جاري العمل</strong>
-                            <span class="pull-right">{{ $inProgress }} جهاز</span>
+                            <strong>@lang('site.in_progress')</strong>
+                            <span class="pull-right">{{ $inProgress }} @lang('site.device')</span>
 
                             <div class="progress">
                                 <div class="progress-bar progress-bar-warning" style="width:{{ $inProgressWidth }}%">
                                 </div>
                             </div>
 
-                            <strong>تم الإصلاح</strong>
-                            <span class="pull-right">{{ $completed }} جهاز</span>
+                            <strong>@lang('site.completed')</strong>
+                            <span class="pull-right">{{ $completed }} @lang('site.device')</span>
 
                             <div class="progress">
                                 <div class="progress-bar progress-bar-info" style="width:{{ $completedWidth }}%"></div>
                             </div>
 
-                            <strong>تم التسليم</strong>
-                            <span class="pull-right">{{ $delivered }} جهاز</span>
+                            <strong>@lang('site.delivered')</strong>
+                            <span class="pull-right">{{ $delivered }} @lang('site.device')</span>
 
                             <div class="progress">
                                 <div class="progress-bar progress-bar-success" style="width:{{ $deliveredWidth }}%">
@@ -372,7 +372,7 @@
                         </span>
 
                         <div class="info-box-content">
-                            <span class="info-box-text">العملاء الجدد هذا الشهر</span>
+                            <span class="info-box-text">@lang('site.new_clients_month')</span>
                             <span class="info-box-number">
                                 {{ $newClientsMonth }}
                             </span>
@@ -391,7 +391,7 @@
                         <div class="info-box-content">
 
                             <span class="info-box-text">
-                                أفضل عميل شراءً
+                                @lang('site.best_client')
                             </span>
 
                             @if ($topClient)
@@ -400,13 +400,13 @@
                                 </span>
 
                                 <span>
-                                    إجمالى المشتريات :
+                                    @lang('site.total_sales')
                                     {{ number_format($topClient->total_sales, 2) }}
-                                    ج.م
+                                    @lang('site.egp')
                                 </span>
                             @else
                                 <span class="info-box-number">
-                                    لا يوجد بيانات
+                                    @lang('site.no_data')
                                 </span>
                             @endif
 
@@ -419,7 +419,6 @@
 
             <div class="row">
 
-                {{-- إجمالى المخزون --}}
                 <div class="col-md-4">
                     <div class="info-box bg-aqua">
 
@@ -429,7 +428,7 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">
-                                إجمالى المخزون
+                                @lang('site.total_stock')
                             </span>
 
                             <span class="info-box-number">
@@ -442,7 +441,6 @@
 
 
 
-                {{-- منتجات نفدت --}}
                 <div class="col-md-4">
                     <div class="info-box bg-red">
 
@@ -452,7 +450,7 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">
-                                منتجات نفدت
+                                @lang('site.expired_products')
                             </span>
 
                             <span class="info-box-number">
@@ -473,7 +471,7 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">
-                                منتجات اوشكت على النفاذ
+                                @lang('site.almost_expired_products')
                             </span>
 
                             <span class="info-box-number">
@@ -496,11 +494,11 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">
-                                أرباح اليوم
+                                @lang('site.today_profit')
                             </span>
 
                             <span class="info-box-number">
-                                {{ number_format($todayProfit, 2) }} ج.م
+                                {{ number_format($todayProfit, 2) }} @lang('site.egp')
                             </span>
                         </div>
                     </div>
@@ -515,11 +513,11 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">
-                                أرباح الأسبوع
+                                @lang('site.weekly_profit')
                             </span>
 
                             <span class="info-box-number">
-                                {{ number_format($weekProfit, 2) }} ج.م
+                                {{ number_format($weekProfit, 2) }} @lang('site.egp')
                             </span>
                         </div>
                     </div>
@@ -534,11 +532,11 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">
-                                أرباح الشهر
+                                @lang('site.monthly_profit')
                             </span>
 
                             <span class="info-box-number">
-                                {{ number_format($monthProfit, 2) }} ج.م
+                                {{ number_format($monthProfit, 2) }} @lang('site.egp')
                             </span>
                         </div>
                     </div>
@@ -553,11 +551,11 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">
-                                أرباح السنة
+                                @lang('site.yearly_profit')
                             </span>
 
                             <span class="info-box-number">
-                                {{ number_format($yearProfit, 2) }} ج.م
+                                {{ number_format($yearProfit, 2) }} @lang('site.egp')
                             </span>
                         </div>
                     </div>
@@ -569,7 +567,7 @@
             <div class="box box-solid">
 
                 <div class="box-header">
-                    <h3 class="box-title">Sales Graph</h3>
+                    <h3 class="box-title">@lang('site.sales_statistics')</h3>
                 </div>
                 <div class="box-body border-radius-none">
                     <div class="chart" id="line-chart" style="height: 250px;"></div>
@@ -584,7 +582,7 @@
                     <div class="small-box bg-red">
                         <div class="inner">
                             <h3>{{ $lateInstallmentsCount }}</h3>
-                            <p>الأقساط المتأخرة</p>
+                            <p>@lang('site.late_installments')</p>
                         </div>
 
                         <div class="icon">
@@ -600,7 +598,7 @@
                     <div class="small-box bg-yellow">
                         <div class="inner">
                             <h3>{{ number_format($lateInstallmentsTotal, 2) }}</h3>
-                            <p>إجمالي المتأخرات</p>
+                            <p>@lang('site.late_installments_total')</p>
                         </div>
 
                         <div class="icon">
@@ -622,7 +620,7 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">
-                                إجمالى الأقساط
+                                @lang('site.total_installments')
                             </span>
 
                             <span class="info-box-number">
@@ -640,7 +638,7 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">
-                                المسددة
+                                @lang('site.paid_installments')
                             </span>
 
                             <span class="info-box-number">
@@ -658,7 +656,7 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">
-                                المتبقية
+                                @lang('site.remaining_installments')
                             </span>
 
                             <span class="info-box-number">
@@ -676,7 +674,7 @@
 
                 <div class="box-header with-border">
                     <h3 class="box-title">
-                        الأقساط المستحقة اليوم
+                        @lang('site.today_installments')
                     </h3>
                 </div>
 
@@ -688,11 +686,11 @@
 
                             <tr>
                                 <th>#</th>
-                                <th>رقم الطلب</th>
-                                <th>العميل</th>
-                                <th>قيمة القسط</th>
-                                <th>تاريخ الاستحقاق</th>
-                                <th>الحالة</th>
+                                <th>@lang('site.order_number')</th>
+                                <th>@lang('site.client')</th>
+                                <th>@lang('site.amount')</th>
+                                <th>@lang('site.due_date')</th>
+                                <th>@lang('site.status')</th>
                             </tr>
 
                         </thead>
@@ -708,7 +706,7 @@
 
                                     <td>{{ $installment->order->client->name }}</td>
 
-                                    <td>{{ number_format($installment->amount, 2) }} ج.م</td>
+                                    <td>{{ number_format($installment->amount, 2) }} @lang('site.egp')</td>
 
                                     <td>{{ $installment->due_date }}</td>
 
@@ -716,15 +714,11 @@
 
                                         @if ($installment->status == 'paid')
                                             <span class="label label-success">
-                                                مسدد
+                                                @lang('site.paid')
                                             </span>
-                                        @elseif($installment->status == 'pending')
-                                            <span class="label label-warning">
-                                                مستحق
-                                            </span>
-                                        @elseif($installment->status == 'late')
+                                        @elseif($installment->status == 'unpaid')
                                             <span class="label label-danger">
-                                                متأخر
+                                                @lang('site.unpaid')
                                             </span>
                                         @endif
 
@@ -737,7 +731,7 @@
                                 <tr>
 
                                     <td colspan="6" class="text-center">
-                                        لا توجد أقساط مستحقة اليوم
+                                        @lang('site.no_today_installments')
                                     </td>
 
                                 </tr>
@@ -758,15 +752,11 @@
                     <div class="small-box bg-aqua">
                         <div class="inner">
                             <h3>{{ $todayInstallments }}</h3>
-                            <p>الأقساط المستحقة اليوم</p>
+                            <p>@lang('site.today_installments_deserved')</p>
                         </div>
                         <div class="icon">
                             <i class="fa fa-calendar"></i>
                         </div>
-                        <a href="#" class="small-box-footer">
-                            عرض التفاصيل
-                            <i class="fa fa-arrow-circle-left"></i>
-                        </a>
                     </div>
                 </div>
 
@@ -777,15 +767,11 @@
                     <div class="small-box bg-green">
                         <div class="inner">
                             <h3>{{ $paidThisMonth }}</h3>
-                            <p>المحصلة هذا الشهر</p>
+                            <p>@lang('site.this_month_installments')</p>
                         </div>
                         <div class="icon">
                             <i class="fa fa-check-circle"></i>
                         </div>
-                        <a href="#" class="small-box-footer">
-                            عرض التفاصيل
-                            <i class="fa fa-arrow-circle-left"></i>
-                        </a>
                     </div>
                 </div>
 
@@ -794,15 +780,11 @@
                     <div class="small-box bg-yellow">
                         <div class="inner">
                             <h3>{{ $next3DaysCount }}</h3>
-                            <p>تستحق خلال 3 أيام</p>
+                            <p>@lang('site.three_days_installments_deserved')</p>
                         </div>
                         <div class="icon">
                             <i class="fa fa-clock-o"></i>
                         </div>
-                        <a href="#" class="small-box-footer">
-                            عرض التفاصيل
-                            <i class="fa fa-arrow-circle-left"></i>
-                        </a>
                     </div>
                 </div>
 
@@ -818,7 +800,7 @@
                         <div class="box-header with-border">
                             <h3 class="box-title">
                                 <i class="fa fa-exclamation-triangle"></i>
-                                الأقساط المتأخرة
+                                @lang('site.late_installments')
                             </h3>
                         </div>
 
@@ -828,10 +810,10 @@
 
                                 <thead>
                                     <tr>
-                                        <th>العميل</th>
-                                        <th>القسط</th>
-                                        <th>الاستحقاق</th>
-                                        <th>المتبقى</th>
+                                        <th>@lang('site.client')</th>
+                                        <th>@lang('site.installment')</th>
+                                        <th>@lang('site.due_date')</th>
+                                        <th>@lang('site.remaining')</th>
                                     </tr>
                                 </thead>
 
@@ -851,7 +833,7 @@
                                     @empty
                                         <tr>
                                             <td colspan="4" class="text-center">
-                                                لا توجد أقساط متأخرة
+                                                @lang('site.no_late_installments')
                                             </td>
                                         </tr>
                                     @endforelse
@@ -874,7 +856,7 @@
                         <div class="box-header with-border">
                             <h3 class="box-title">
                                 <i class="fa fa-clock-o"></i>
-                                الأقساط المستحقة خلال 3 أيام
+                                @lang('site.three_days_installments')
                             </h3>
                         </div>
 
@@ -884,10 +866,10 @@
 
                                 <thead>
                                     <tr>
-                                        <th>العميل</th>
-                                        <th>القسط</th>
-                                        <th>التاريخ</th>
-                                        <th>القيمة</th>
+                                        <th>@lang('site.client')</th>
+                                        <th>@lang('site.installment')</th>
+                                        <th>@lang('site.due_date')</th>
+                                        <th>@lang('site.amount')</th>
                                     </tr>
                                 </thead>
 
@@ -907,7 +889,7 @@
                                     @empty
                                         <tr>
                                             <td colspan="4" class="text-center">
-                                                لا توجد أقساط قريبة
+                                                @lang('site.no_close_installments')
                                             </td>
                                         </tr>
                                     @endforelse
@@ -933,7 +915,7 @@
                         <div class="box-header with-border">
                             <h3 class="box-title">
                                 <i class="fa fa-money"></i>
-                                آخر الأقساط المحصلة
+                                @lang('site.last_paid_installments')
                             </h3>
                         </div>
 
@@ -943,10 +925,10 @@
 
                                 <thead>
                                     <tr>
-                                        <th>العميل</th>
-                                        <th>القسط</th>
-                                        <th>المدفوع</th>
-                                        <th>تاريخ الدفع</th>
+                                        <th>@lang('site.client')</th>
+                                        <th>@lang('site.installment')</th>
+                                        <th>@lang('site.paid_amount')</th>
+                                        <th>@lang('site.paid_at')</th>
                                     </tr>
                                 </thead>
 
@@ -966,7 +948,7 @@
                                     @empty
                                         <tr>
                                             <td colspan="4" class="text-center">
-                                                لا توجد بيانات
+                                                @lang('site.no_data')
                                             </td>
                                         </tr>
                                     @endforelse
@@ -988,34 +970,34 @@
 
                     <strong>{{ $installment->order->client->name }}</strong>
 
-                    متأخر عن سداد القسط رقم
+                    @lang('site.late_installment_no')
 
                     <strong>#{{ $installment->installment_no }}</strong>
 
-                    الخاص بالطلب
+                    @lang('site.order_specific')
 
                     <strong>#{{ $installment->order_id }}</strong>
 
                     <br>
 
-                    تم سداد
+                    @lang('site.paid_done')
 
-                    <strong>{{ number_format($installment->paid_amount, 2) }} ج.م</strong>
+                    <strong>{{ number_format($installment->paid_amount, 2) }} @lang('site.egp')</strong>
 
-                    من إجمالى
+                    @lang('site.from_total')
 
-                    <strong>{{ number_format($installment->amount, 2) }} ج.م</strong>
+                    <strong>{{ number_format($installment->amount, 2) }} @lang('site.egp')</strong>
 
-                    ويتبقى
+                    @lang('site.remain')
 
-                    <strong class="text-warning">
-                        {{ number_format($installment->amount - $installment->paid_amount, 2) }} ج.م
+                    <strong>
+                        {{ number_format($installment->amount - $installment->paid_amount, 2) }} @lang('site.egp')
                     </strong>
 
                     <br>
 
                     <small>
-                        كان موعد الاستحقاق
+                        @lang('site.was_deserved')
                         {{ $installment->due_date->format('Y-m-d') }}
                         ({{ $installment->due_date->diffForHumans() }})
                     </small>
