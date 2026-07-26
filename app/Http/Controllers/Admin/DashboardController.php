@@ -17,6 +17,11 @@ use Spatie\Activitylog\Models\Activity;
 
 class DashboardController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
 
@@ -73,10 +78,10 @@ class DashboardController extends Controller
         ->get();
 
 
-        $almostProducts = Product::where('stock', '<=', 0)->whereColumn('stock', '<=', 'stock_limit')->count();
+        $almostProducts = Product::where('stock', '<=', 0)->orWhereColumn('stock', '<=', 'stock_limit')->count();
 
         $almostProductsTable = Product::where('stock', '<=', 0)
-        ->whereColumn('stock', '<=', 'stock_limit')
+        ->orWhereColumn('stock', '<=', 'stock_limit')
         ->orderBy('stock')
         ->take(10)
         ->get();

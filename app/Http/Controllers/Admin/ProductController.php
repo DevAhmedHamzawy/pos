@@ -202,19 +202,19 @@ class ProductController extends Controller
     public function updateQty(Product $product, Request $request)
     {
         if($request->type == 'in'){
-            $product->update(['stock' => $request->quantity + $product->stock]);
             $request->merge(['user_id' => auth()->user()->id,'product_id' => $product->id, 'quantity' => $request->quantity + $product->stock]);
+            $product->update(['stock' => $request->quantity + $product->stock]);
         }else{
             if($product->stock < $request->quantity){
                 return back()->withErrors([
                     'stock' => __('site.not_enough_stock')
                 ]);
             }
-            $product->update(['stock' => $product->stock - $request->quantity]);
             $request->merge(['user_id' => auth()->user()->id, 'product_id' => $product->id, 'quantity' => $product->stock - $request->quantity]);
+            $product->update(['stock' => $product->stock - $request->quantity]);
         }
 
-        DB::table('products_log_activity')->insert($request->only(['user_id', 'product_id', 'quantity', 'status']));
+        DB::table('products_log_activity')->insert($request->only(['user_id', 'product_id', 'quantity', 'status', 'type']));
         session()->flash('success', __('site.updated_successfully'));
         return redirect()->route('admin.products.index');
     }
