@@ -51,8 +51,10 @@ class DashboardController extends Controller
 
 
         $salesRevenue = Order::sum('total_price');
-        $maintenanceRevenue = Maintenance::sum('price');
-        $spacePartRevenue = DB::table('maintenance_space_part')->sum('price');
+        $maintenanceRevenue = Maintenance::sum('subtotal');
+        //$spacePartRevenue = DB::table('maintenance_space_part')->sum('price');
+        $spacePartRevenue = Maintenance::sum('space_part_price');
+
 
         $revenues = [
             'sales' => $salesRevenue,
@@ -135,11 +137,12 @@ class DashboardController extends Controller
         $todaySales = Order::whereDate('created_at', today())
         ->sum('total_price');
 
-        $todayMaintenance = Maintenance::whereDate('created_at', today())
-        ->sum('price');
+        $todayMaintenance = Maintenance::whereDate('created_at', today())->sum('subtotal');
+        // $todayParts = DB::table('maintenance_space_part')->whereDate('created_at', today())
+        // ->sum('price');
 
-        $todayParts = DB::table('maintenance_space_part')->whereDate('created_at', today())
-        ->sum('price');
+        $todayParts = Maintenance::whereDate('created_at', today())
+        ->sum('space_part_price');
 
         $todayProfit = $todaySales + $todayMaintenance + $todayParts;
 
@@ -147,11 +150,13 @@ class DashboardController extends Controller
         $weekSales = Order::whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
         ->sum('total_price');
 
-        $weekMaintenance = Maintenance::whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
-        ->sum('price');
+        $weekMaintenance = Maintenance::whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])->sum('subtotal');
 
-        $weekParts = DB::table('maintenance_space_part')->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
-        ->sum('price');
+        // $weekParts = DB::table('maintenance_space_part')->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
+        // ->sum('price');
+
+        $weekParts = Maintenance::whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
+        ->sum('space_part_price');
 
         $weekProfit = $weekSales + $weekMaintenance + $weekParts;
 
@@ -161,11 +166,15 @@ class DashboardController extends Controller
 
         $monthMaintenance = Maintenance::whereMonth('created_at', now()->month)
         ->whereYear('created_at', now()->year)
-        ->sum('price');
+        ->sum('subtotal');
 
-        $monthParts = DB::table('maintenance_space_part')->whereMonth('created_at', now()->month)
+        // $monthParts = DB::table('maintenance_space_part')->whereMonth('created_at', now()->month)
+        // ->whereYear('created_at', now()->year)
+        // ->sum('price');
+
+        $monthParts = Maintenance::whereMonth('created_at', now()->month)
         ->whereYear('created_at', now()->year)
-        ->sum('price');
+        ->sum('space_part_price');
 
         $monthProfit = $monthSales + $monthMaintenance + $monthParts;
 
@@ -174,11 +183,13 @@ class DashboardController extends Controller
         whereYear('created_at', now()->year)
         ->sum('total_price');
 
-        $yearMaintenance = Maintenance::whereYear('created_at', now()->year)
-        ->sum('price');
+        $yearMaintenance = Maintenance::whereYear('created_at', now()->year)->sum('subtotal');
 
-        $yearParts = DB::table('maintenance_space_part')->whereYear('created_at', now()->year)
-        ->sum('price');
+        // $yearParts = DB::table('maintenance_space_part')->whereYear('created_at', now()->year)
+        // ->sum('price');
+
+        $yearParts = Maintenance::whereYear('created_at', now()->year)
+        ->sum('space_part_price');
 
         $yearProfit = $yearSales + $yearMaintenance + $yearParts;
 

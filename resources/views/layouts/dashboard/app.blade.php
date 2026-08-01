@@ -191,7 +191,7 @@
                         </li>
 
                         {{-- <!-- Notifications: style can be found in dropdown.less --> --}}
-                        <li class="dropdown notifications-menu">
+                        {{-- <li class="dropdown notifications-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-bell-o"></i>
                                 <span class="label label-warning">10</span>
@@ -199,7 +199,7 @@
                             <ul class="dropdown-menu">
                                 <li class="header">You have 10 notifications</li>
                                 <li>
-                                    {{-- <!-- inner menu: contains the actual data --> --}}
+                                     <!-- inner menu: contains the actual data -->
                                     <ul class="menu">
                                         <li>
                                             <a href="#">
@@ -212,7 +212,7 @@
                                     <a href="#">View all</a>
                                 </li>
                             </ul>
-                        </li>
+                        </li> --}}
 
                         {{-- <!-- Tasks: style can be found in dropdown.less --> --}}
                         <li class="dropdown tasks-menu">
@@ -248,8 +248,8 @@
 
                                 {{-- <!-- User image --> --}}
                                 <li class="user-header">
-                                    <img src="{{ asset('dashboard_files/img/user2-160x160.jpg') }}"
-                                        class="img-circle" alt="User Image">
+                                    <img src="{{ asset('dashboard_files/img/user2-160x160.jpg') }}" class="img-circle"
+                                        alt="User Image">
 
                                     <p>
                                         {{ auth()->user()->first_name }} {{ auth()->user()->last_name }}

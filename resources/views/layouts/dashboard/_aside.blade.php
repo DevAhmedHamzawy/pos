@@ -7,7 +7,7 @@
                 <img src="{{ asset('dashboard_files/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-                <p>Alexander Pierce</p>
+                <p>{{ auth()->user()->full_name }}</p>
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>
@@ -75,14 +75,14 @@
                 </li>
             @endif
 
-            @if (auth()->user()->hasPermission('space_parts_read'))
+            {{-- @if (auth()->user()->hasPermission('space_parts_read'))
                 <li>
                     <a href="{{ route('admin.space_parts.index') }}">
                         <i class="fa fa-cog"></i>
                         <span>@lang('site.space_parts')</span>
                     </a>
                 </li>
-            @endif
+            @endif --}}
 
             @if (auth()->user()->hasPermission('users_read'))
                 <li>

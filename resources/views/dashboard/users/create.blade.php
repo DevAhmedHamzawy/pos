@@ -80,7 +80,6 @@
                                         'orders',
                                         'installments',
                                         'maintenances',
-                                        'space_parts',
                                         'activity_logs',
                                     ];
                                     $maps = ['create', 'read', 'update', 'delete'];

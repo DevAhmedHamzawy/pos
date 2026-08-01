@@ -58,6 +58,16 @@
                         </div>
 
                         <div class="form-group">
+                            <label>@lang('site.password')</label>
+                            <input type="password" name="password" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label>@lang('site.password_confirmation')</label>
+                            <input type="password" name="password_confirmation" class="form-control">
+                        </div>
+
+                        <div class="form-group">
                             <label>@lang('site.permissions')</label>
                             <div class="nav-tabs-custom">
 
@@ -71,7 +81,6 @@
                                         'orders',
                                         'installments',
                                         'maintenances',
-                                        'space_parts',
                                         'activity_logs',
                                     ];
                                     $maps = ['create', 'read', 'update', 'delete'];

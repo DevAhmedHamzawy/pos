@@ -53,6 +53,7 @@
 
                                 <table class="table table-hover">
                                     <tr>
+                                        <th>@lang('site.order_number')</th>
                                         <th>@lang('site.client_name')</th>
                                         <th>@lang('site.price')</th>
                                         {{--                                        <th>@lang('site.status')</th> --}}
@@ -62,6 +63,7 @@
 
                                     @foreach ($orders as $order)
                                         <tr>
+                                            <td>{{ $order->id }}</td>
                                             <td>{{ $order->client->name }}</td>
                                             <td>{{ number_format($order->total_price, 2) }}</td>
                                             {{-- <td>

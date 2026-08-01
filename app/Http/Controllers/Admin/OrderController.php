@@ -19,7 +19,7 @@ class OrderController extends Controller
     {
         $orders = Order::whereHas('client', function($q){
             return $q->where('name', 'like', '%' . request()->search . '%');
-        })->paginate(10);
+        })->orWhere('id', $request->search)->paginate(10);
 
         return view('dashboard.orders.index', compact('orders'));
     }

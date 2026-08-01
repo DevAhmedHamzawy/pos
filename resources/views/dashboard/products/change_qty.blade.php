@@ -65,8 +65,8 @@
 
                         <div class="form-group">
                             <label>@lang('site.new_qty')</label>
-                            <input type="number" id="new_qty" class="form-control" value="{{ $product->stock }}"
-                                readonly>
+                            <input type="number" name="new_qty" id="new_qty" class="form-control"
+                                value="{{ $product->stock }}" readonly>
                         </div>
 
                         <div class="form-group">

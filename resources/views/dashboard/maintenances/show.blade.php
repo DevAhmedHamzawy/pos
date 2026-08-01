@@ -23,10 +23,7 @@
 
                     @include('partials._errors')
 
-                    <form action="{{ route('admin.maintenances.update', $maintenance->id) }}" method="post">
-
-                        {{ csrf_field() }}
-                        {{ method_field('put') }}
+                    <form action="#" method="post">
 
                         <div class="form-group">
                             <label>@lang('site.status')</label>
@@ -65,7 +62,7 @@
 
                         <div class="form-group">
                             <label>@lang('site.model')</label>
-                            <input type="number" name="model" class="form-control" value="{{ $maintenance->model }}"
+                            <input type="text" name="model" class="form-control" value="{{ $maintenance->model }}"
                                 readonly>
                         </div>
 
@@ -82,6 +79,18 @@
                         </div>
 
                         <div class="form-group">
+                            <label>@lang('site.space_part_price')</label>
+                            <input type="number" name="space_part_price" id="space_part_price" step="0.01"
+                                class="form-control" value="{{ $maintenance->space_part_price }}" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label>@lang('site.total_price')</label>
+                            <input type="number" name="total_price" id="total_price" class="form-control"
+                                value="{{ $maintenance->total_price }}" readonly>
+                        </div>
+
+                        <div class="form-group">
                             <label>@lang('site.description')</label>
                             <textarea name="description" class="form-control ckeditor" readonly>{{ $maintenance->description }}</textarea>
                         </div>
@@ -91,7 +100,7 @@
                             <textarea name="notes" class="form-control ckeditor" readonly>{{ $maintenance->notes }}</textarea>
                         </div>
 
-                        <div class="card">
+                        {{-- <div class="card">
                             <div class="card-body">
 
                                 <table class="table table-bordered" id="parts_table">
@@ -159,7 +168,7 @@
                                 </div>
 
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i>

@@ -99,10 +99,11 @@ class UserController extends Controller
             'last_name' => 'required',
             'email' => ['required', Rule::unique('users')->ignore($user->id),],
             'image' => 'image',
+            'password' => 'sometimes|confirmed',
             'permissions' => 'required|min:1'
         ]);
 
-        $request_data = $request->except(['permissions', 'image']);
+        $request_data = $request->except(['password', 'password_confirmation', 'permissions', 'image']);
 
         if ($request->image) {
 
@@ -122,6 +123,12 @@ class UserController extends Controller
 
         }//end of external if
 
+        if ($request->password) {
+
+            $request_data['password'] = bcrypt($request->password);
+
+        }//end of if
+
         $user->update($request_data);
 
         activity()->log('قام '.auth()->user()->full_name.' بتعديل مشرف '.$user->full_name);
@@ -132,8 +139,7 @@ class UserController extends Controller
 
     }//end of update
 
-    public
-    function destroy(User $user)
+    public function destroy(User $user)
     {
         if ($user->image != 'default.png') {
 

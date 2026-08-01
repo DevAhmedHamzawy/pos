@@ -68,6 +68,8 @@ class MaintenanceController extends Controller
             'model' => 'required',
             'imei' => 'required',
             'price' => 'required|numeric',
+            'space_part_price' => 'required|numeric',
+            'subtotal' => 'required|numeric|min:0',
             'description' => 'required',
         ]);
 
@@ -88,9 +90,9 @@ class MaintenanceController extends Controller
         $clients = Client::all();
         $brands = Brand::all();
         $statuses = MaintenanceStatus::cases();
-        $space_parts = SpacePart::all();
+        //$space_parts = SpacePart::all();
 
-        return view('dashboard.maintenances.show', compact('clients', 'brands', 'maintenance', 'statuses', 'space_parts'));
+        return view('dashboard.maintenances.show', compact('clients', 'brands', 'maintenance', 'statuses'));
     }
 
     /**
@@ -101,9 +103,9 @@ class MaintenanceController extends Controller
         $clients = Client::all();
         $brands = Brand::all();
         $statuses = MaintenanceStatus::cases();
-        $space_parts = SpacePart::all();
+        //$space_parts = SpacePart::all();
 
-        return view('dashboard.maintenances.edit', compact('clients', 'brands', 'maintenance', 'statuses', 'space_parts'));
+        return view('dashboard.maintenances.edit', compact('clients', 'brands', 'maintenance', 'statuses'));
     }
 
     /**
@@ -116,6 +118,8 @@ class MaintenanceController extends Controller
             'client_id' => 'required|exists:clients,id',
             'brand_id' => 'required|exists:brands,id',
             'price' => 'required|numeric',
+            'space_part_price' => 'required|numeric',
+            'subtotal' => 'required|numeric|min:0',
             'model' => 'required',
             'imei' => 'required',
             'description' => 'required',
@@ -159,6 +163,8 @@ class MaintenanceController extends Controller
                 'model'       => $request->model,
                 'imei'        => $request->imei,
                 'price'       => $request->price,
+                'space_part_price' => $request->space_part_price,
+                'subtotal' => $request->subtotal,
                 'description' => $request->description,
                 'notes'       => $request->notes,
             ]);

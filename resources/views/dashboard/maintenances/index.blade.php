@@ -73,10 +73,13 @@
                                 <tr>
                                     <th>#</th>
                                     <th>@lang('site.client')</th>
+                                    <th>@lang('site.phone')</th>
                                     <th>@lang('site.brand')</th>
                                     <th>@lang('site.model')</th>
                                     <th>@lang('site.imei')</th>
                                     <th>@lang('site.price')</th>
+                                    <th>@lang('site.space_part_price')</th>
+                                    <th>@lang('site.total_price')</th>
                                     <th>@lang('site.description')</th>
                                     <th>@lang('site.status')</th>
                                     <th>@lang('site.action')</th>
@@ -88,11 +91,14 @@
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $maintenance->client->name }}</td>
+                                        <td>{{ implode('- ', $maintenance->client->phone) }}</td>
                                         <td>{{ $maintenance->brand->name }}</td>
                                         <td>{{ $maintenance->model }}</td>
                                         <td>{{ $maintenance->imei }}</td>
                                         <td>{{ $maintenance->price }}</td>
-                                        <td>{{ $maintenance->description }}</td>
+                                        <td>{{ $maintenance->space_part_price }}</td>
+                                        <td>{{ $maintenance->subtotal }}</td>
+                                        <td>{!! $maintenance->description !!}</td>
                                         <th>@lang('site.' . str_replace('_', ' ', $maintenance->status))</th>
                                         <td>
                                             @if (auth()->user()->hasPermission('maintenances_read'))

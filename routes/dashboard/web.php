@@ -41,6 +41,6 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
     Route::get('/orders/{order}/receipt', [AdminOrderController::class, 'receipt'])->name('orders.receipt');
 
     Route::resource('maintenances', MaintenanceController::class);
-    Route::resource('space_parts', SpacePartController::class);
+    //Route::resource('space_parts', SpacePartController::class);
 
     Route::get('activity_logs', [ActivityLogController::class, 'index'])->name('activity_logs');

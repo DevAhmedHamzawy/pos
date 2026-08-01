@@ -153,7 +153,7 @@ return [
     'model' => 'Model',
     'status' => 'Status',
 
-    'search_client_name' => 'Search client by name',
+    'search_client_name' => 'Search client by name or order number',
 
     'all_clients' => 'All Clients',
 
@@ -266,4 +266,18 @@ return [
     'in_progress' => 'In Progress',
 
     'activity_logs' => 'Activity Logs',
+
+    'space_part_price' => 'Spare Part Price',
+
+    'total_price' => 'Total Price',
+
+    'subtotal' => 'Subtotal',
+
+    'national_id' => 'National ID',
+
+    'slogan' => 'Choose the best and guarantee the real',
+
+    'view' => 'View',
+
+    'close' => 'Close',
 ];

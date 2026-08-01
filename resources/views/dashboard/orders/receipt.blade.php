@@ -223,7 +223,7 @@
 
     <div class="footer">
 
-        <p>@lang('site.thank_you_for_shopping')</p>
+        <p>@lang('site.slogan')</p>
 
         <h3>DEEPSTORE</h3>
 

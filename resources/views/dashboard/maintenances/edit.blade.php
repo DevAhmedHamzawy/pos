@@ -65,7 +65,7 @@
 
                         <div class="form-group">
                             <label>@lang('site.model')</label>
-                            <input type="number" name="model" class="form-control" value="{{ $maintenance->model }}">
+                            <input type="text" name="model" class="form-control" value="{{ $maintenance->model }}">
                         </div>
 
                         <div class="form-group">
@@ -74,9 +74,21 @@
                         </div>
 
                         <div class="form-group">
-                            <label>@lang('site.price')</label>
-                            <input type="number" name="price" id="maintenance_cost" step="0.01" class="form-control"
+                            <label>@lang('site.total_price')</label>
+                            <input type="number" name="price" id="price" step="0.01" class="form-control"
                                 value="{{ $maintenance->price }}">
+                        </div>
+
+                        <div class="form-group">
+                            <label>@lang('site.space_part_price')</label>
+                            <input type="number" name="space_part_price" id="space_part_price" step="0.01"
+                                class="form-control" value="{{ $maintenance->space_part_price }}">
+                        </div>
+
+                        <div class="form-group">
+                            <label>@lang('site.subtotal')</label>
+                            <input type="number" name="subtotal" id="subtotal" class="form-control"
+                                value="{{ $maintenance->subtotal }}" readonly>
                         </div>
 
                         <div class="form-group">
@@ -89,7 +101,7 @@
                             <textarea name="notes" class="form-control ckeditor">{{ $maintenance->notes }}</textarea>
                         </div>
 
-                        <div class="card">
+                        {{-- <div class="card">
                             <div class="card-body">
 
                                 <table class="table table-bordered" id="parts_table">
@@ -163,7 +175,7 @@
                                 </div>
 
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i>
@@ -182,7 +194,7 @@
 @endsection
 
 @push('scripts')
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             calculateTotal();
         })
@@ -338,6 +350,13 @@
 
             });
 
+        });
+    </script> --}}
+
+
+    <script>
+        $(document).on('keyup', '#price, #space_part_price', function() {
+            $('#subtotal').val($('#price').val() - $('#space_part_price').val());
         });
     </script>
 @endpush

@@ -86,7 +86,16 @@
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $product->name }}</td>
-                                        <td>{!! $product->description !!}</td>
+                                        <td>
+                                            <button class="btn btn-info btn-sm show-description" data-toggle="modal"
+                                                data-target="#descriptionModal">
+                                                <i class="fa fa-eye"></i> @lang('site.view')
+                                            </button>
+
+                                            <div class="description-data hidden">
+                                                {!! $product->description !!}
+                                            </div>
+                                        </td>
                                         <td>{{ $product->category->name }}</td>
                                         <td><img src="{{ $product->image_path }}" style="width: 100px"
                                                 class="img-thumbnail" /></td>
@@ -155,4 +164,41 @@
         </section><!-- end of content -->
 
     </div><!-- end of content wrapper -->
+
+    <div class="modal fade" id="descriptionModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+
+                    <h4 class="modal-title">
+                        @lang('site.description')
+                    </h4>
+                </div>
+
+                <div class="modal-body">
+                    <div id="description-content"></div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        @lang('site.close')
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).on('click', '.show-description', function() {
+            let description = $(this).siblings('.description-data').html();
+            $('#description-content').html(description);
+        });
+    </script>
+@endpush

@@ -135,7 +135,8 @@ function calculateInstallment() {
 
     $(".product-quantity").each(function () {
         let qty = Number($(this).val()) || 0;
-        let itemPrice = Number($(this).data("price")) || 0;
+        let itemPrice =
+            parseFloat($(this).data("price").toString().replace(/,/g, "")) || 0;
 
         price += qty * itemPrice;
     });
