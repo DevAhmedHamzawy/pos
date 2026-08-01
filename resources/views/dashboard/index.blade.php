@@ -298,7 +298,7 @@
 
                                             <td>#{{ $order->id }}</td>
 
-                                            <td>{{ $order->client->name }}</td>
+                                            <td>{{ $order->client->name ?? 'غير محدد' }}</td>
 
                                             <td>{{ number_format($order->total_price, 2) }}</td>
 

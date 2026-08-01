@@ -40,6 +40,14 @@
                                     <div class="col-md-4">
                                         <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i>
                                             @lang('site.search')</button>
+
+                                        @if (auth()->user()->hasPermission('orders_create'))
+                                            <a href="{{ route('admin.orders.create') }}" class="btn btn-primary"><i
+                                                    class="fa fa-plus"></i> @lang('site.add')</a>
+                                        @else
+                                            <a href="#" class="btn btn-primary disabled"><i class="fa fa-plus"></i>
+                                                @lang('site.add')</a>
+                                        @endif
                                     </div>
 
                                 </div><!-- end of row -->
@@ -64,7 +72,7 @@
                                     @foreach ($orders as $order)
                                         <tr>
                                             <td>{{ $order->id }}</td>
-                                            <td>{{ $order->client->name }}</td>
+                                            <td>{{ $order->client->name ?? 'غير محدد' }}</td>
                                             <td>{{ number_format($order->total_price, 2) }}</td>
                                             {{-- <td>
                                                 <button data-status="@lang('site.' . $order->status)"
@@ -84,9 +92,15 @@
                                                     @lang('site.show')
                                                 </button>
                                                 @if (auth()->user()->hasPermission('orders_update'))
-                                                    <a href="{{ route('admin.clients.orders.edit', ['client' => $order->client->id, 'order' => $order->id]) }}"
-                                                        class="btn btn-warning btn-sm"><i class="fa fa-pencil"></i>
-                                                        @lang('site.edit')</a>
+                                                    @if ($order->client)
+                                                        <a href="{{ route('admin.clients.orders.edit', ['client' => $order->client->id, 'order' => $order->id]) }}"
+                                                            class="btn btn-warning btn-sm"><i class="fa fa-pencil"></i>
+                                                            @lang('site.edit')</a>
+                                                    @else
+                                                        <a href="{{ route('admin.orders.edit', ['order' => $order->id]) }}"
+                                                            class="btn btn-warning btn-sm"><i class="fa fa-pencil"></i>
+                                                            @lang('site.edit')</a>
+                                                    @endif
                                                 @else
                                                     <a href="#" disabled class="btn btn-warning btn-sm"><i
                                                             class="fa fa-edit"></i> @lang('site.edit')</a>

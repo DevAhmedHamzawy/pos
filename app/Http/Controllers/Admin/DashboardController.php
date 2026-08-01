@@ -50,7 +50,19 @@ class DashboardController extends Controller
         }
 
 
-        $salesRevenue = Order::sum('total_price');
+        $salesRevenue = Order::with('products')
+                    ->get()
+                    ->sum(function ($order) {
+
+                        return $order->products->sum(function ($product) {
+
+                            return (
+                                $product->sale_price - $product->purchase_price
+                            ) * $product->pivot->quantity;
+
+                        });
+
+                    });
         $maintenanceRevenue = Maintenance::sum('subtotal');
         //$spacePartRevenue = DB::table('maintenance_space_part')->sum('price');
         $spacePartRevenue = Maintenance::sum('space_part_price');
@@ -125,6 +137,7 @@ class DashboardController extends Controller
         'client_id',
         DB::raw('SUM(total_price) as total_sales')
         )
+        ->where('client_id', '!=' , null)
         ->with('client')
         ->groupBy('client_id')
         ->orderByDesc('total_sales')
@@ -134,8 +147,20 @@ class DashboardController extends Controller
         $stockExpired = Product::whereStock(0)->count();
 
 
-        $todaySales = Order::whereDate('created_at', today())
-        ->sum('total_price');
+        $todaySales = Order::with('products')
+                    ->whereDate('created_at', today())
+                    ->get()
+                    ->sum(function ($order) {
+
+                        return $order->products->sum(function ($product) {
+
+                            return (
+                                $product->sale_price - $product->purchase_price
+                            ) * $product->pivot->quantity;
+
+                        });
+
+                    });
 
         $todayMaintenance = Maintenance::whereDate('created_at', today())->sum('subtotal');
         // $todayParts = DB::table('maintenance_space_part')->whereDate('created_at', today())
@@ -146,9 +171,20 @@ class DashboardController extends Controller
 
         $todayProfit = $todaySales + $todayMaintenance + $todayParts;
 
+        $weekSales = Order::with('products')->
+                    whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
+                    ->get()
+                    ->sum(function ($order) {
 
-        $weekSales = Order::whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
-        ->sum('total_price');
+                        return $order->products->sum(function ($product) {
+
+                            return (
+                                $product->sale_price - $product->purchase_price
+                            ) * $product->pivot->quantity;
+
+                        });
+
+                    });;
 
         $weekMaintenance = Maintenance::whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])->sum('subtotal');
 
@@ -160,9 +196,21 @@ class DashboardController extends Controller
 
         $weekProfit = $weekSales + $weekMaintenance + $weekParts;
 
-        $monthSales = Order::whereMonth('created_at', now()->month)
-        ->whereYear('created_at', now()->year)
-        ->sum('total_price');
+        $monthSales = Order::with('products')->
+                    whereMonth('created_at', now()->month)
+                    ->whereYear('created_at', now()->year)
+                    ->get()
+                    ->sum(function ($order) {
+
+                        return $order->products->sum(function ($product) {
+
+                            return (
+                                $product->sale_price - $product->purchase_price
+                            ) * $product->pivot->quantity;
+
+                        });
+
+                    });
 
         $monthMaintenance = Maintenance::whereMonth('created_at', now()->month)
         ->whereYear('created_at', now()->year)
@@ -179,9 +227,22 @@ class DashboardController extends Controller
         $monthProfit = $monthSales + $monthMaintenance + $monthParts;
 
 
-        $yearSales = Order::
-        whereYear('created_at', now()->year)
-        ->sum('total_price');
+       $yearSales = Order::with('products')->
+                    whereYear('created_at', now()->year)
+                    ->get()
+                    ->sum(function ($order) {
+
+                        return $order->products->sum(function ($product) {
+
+                            return (
+                                $product->sale_price - $product->purchase_price
+                            ) * $product->pivot->quantity;
+
+                        });
+
+            });
+
+
 
         $yearMaintenance = Maintenance::whereYear('created_at', now()->year)->sum('subtotal');
 
